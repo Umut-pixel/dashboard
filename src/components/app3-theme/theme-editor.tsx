@@ -389,42 +389,42 @@ export function ThemeEditor() {
         <div className="grid gap-6 md:grid-cols-2">
           <CSSEditor
             componentName="Hero Bölümü"
-            styles={themeData.styles.hero}
+            styles={themeData?.styles?.hero || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.hero.${property}`, value)}
           />
           <CSSEditor
             componentName="Hizmetler Bölümü"
-            styles={themeData.styles.services}
+            styles={themeData?.styles?.services || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.services.${property}`, value)}
           />
           <CSSEditor
             componentName="İletişim Bölümü"
-            styles={themeData.styles.contact}
+            styles={themeData?.styles?.contact || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.contact.${property}`, value)}
           />
           <CSSEditor
             componentName="Footer Bölümü"
-            styles={themeData.styles.footer}
+            styles={themeData?.styles?.footer || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.footer.${property}`, value)}
           />
           <CSSEditor
             componentName="Navigasyon"
-            styles={themeData.styles.navigation}
+            styles={themeData?.styles?.navigation || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.navigation.${property}`, value)}
           />
           <CSSEditor
             componentName="Butonlar"
-            styles={themeData.styles.buttons}
+            styles={themeData?.styles?.buttons || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.buttons.${property}`, value)}
           />
           <CSSEditor
             componentName="Kartlar"
-            styles={themeData.styles.cards}
+            styles={themeData?.styles?.cards || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.cards.${property}`, value)}
           />
           <CSSEditor
             componentName="Metin"
-            styles={themeData.styles.text}
+            styles={themeData?.styles?.text || {}}
             onStyleChange={(property, value) => updateThemeData(`styles.text.${property}`, value)}
           />
         </div>
@@ -434,37 +434,93 @@ export function ThemeEditor() {
         <div className="grid gap-6 md:grid-cols-2">
           <AnimationEditor
             componentName="Hero Bölümü"
-            animation={themeData.animations.hero}
+            animation={themeData?.animations?.hero || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.hero.${property}`, value)}
           />
           <AnimationEditor
             componentName="Hizmetler Bölümü"
-            animation={themeData.animations.services}
+            animation={themeData?.animations?.services || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.services.${property}`, value)}
           />
           <AnimationEditor
             componentName="İletişim Bölümü"
-            animation={themeData.animations.contact}
+            animation={themeData?.animations?.contact || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.contact.${property}`, value)}
           />
           <AnimationEditor
             componentName="Footer Bölümü"
-            animation={themeData.animations.footer}
+            animation={themeData?.animations?.footer || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.footer.${property}`, value)}
           />
           <AnimationEditor
             componentName="Navigasyon"
-            animation={themeData.animations.navigation}
+            animation={themeData?.animations?.navigation || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.navigation.${property}`, value)}
           />
           <AnimationEditor
             componentName="Butonlar"
-            animation={themeData.animations.buttons}
+            animation={themeData?.animations?.buttons || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.buttons.${property}`, value)}
           />
           <AnimationEditor
             componentName="Kartlar"
-            animation={themeData.animations.cards}
+            animation={themeData?.animations?.cards || {
+              enabled: false,
+              type: 'fadeIn',
+              duration: 1,
+              delay: 0,
+              ease: 'power2.out',
+              direction: 'normal',
+              repeat: 0
+            }}
             onAnimationChange={(property, value) => updateThemeData(`animations.cards.${property}`, value)}
           />
         </div>

@@ -224,11 +224,22 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       const keys = path.split('.')
       let current: any = newData
       
+      // Güvenli nested object erişimi
       for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]]
+        const key = keys[i]
+        if (!current[key] || typeof current[key] !== 'object') {
+          // Eğer key yoksa veya object değilse, yeni bir object oluştur
+          current[key] = {}
+        }
+        current = current[key]
       }
       
-      current[keys[keys.length - 1]] = value
+      // Son key için değeri ata
+      const lastKey = keys[keys.length - 1]
+      if (current && typeof current === 'object') {
+        current[lastKey] = value
+      }
+      
       return newData
     })
   }, [])

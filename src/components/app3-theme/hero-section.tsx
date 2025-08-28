@@ -12,7 +12,15 @@ import Image from "next/image";
 
 export function HeroSection() {
   const { themeData, updateThemeData } = useTheme();
-  const { ref: heroRef } = useGSAPAnimation(themeData.animations.hero, 'onMount');
+  const { ref: heroRef } = useGSAPAnimation(themeData?.animations?.hero || {
+    enabled: false,
+    type: 'fadeIn',
+    duration: 1,
+    delay: 0,
+    ease: 'power2.out',
+    direction: 'normal',
+    repeat: 0
+  }, 'onMount');
 
   useEffect(() => {
     //  Unicorn Studio Yüklemek?
@@ -65,7 +73,7 @@ export function HeroSection() {
   ), [themeData.hero.backgroundImage]);
 
   // Apply CSS styles
-  const heroStyles = applyStyles(themeData.styles.hero);
+  const heroStyles = applyStyles(themeData?.styles?.hero || {});
 
   return (
     <section 

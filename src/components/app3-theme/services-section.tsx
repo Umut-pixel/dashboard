@@ -17,7 +17,15 @@ import { applyStyles } from "./apply-styles";
 
 export function ServicesSection() {
   const { themeData, updateThemeData } = useTheme();
-  const { ref: servicesRef } = useGSAPAnimation(themeData.animations.services, 'onScroll');
+  const { ref: servicesRef } = useGSAPAnimation(themeData?.animations?.services || {
+    enabled: false,
+    type: 'fadeIn',
+    duration: 1,
+    delay: 0,
+    ease: 'power2.out',
+    direction: 'normal',
+    repeat: 0
+  }, 'onScroll');
 
   const handleTextChange = (path: string, newText: string) => {
     updateThemeData(path, newText);
@@ -34,7 +42,7 @@ export function ServicesSection() {
   const icons = [Code, Palette, Smartphone, Rocket, Shield, TrendingUp];
 
   // Apply CSS styles
-  const servicesStyles = applyStyles(themeData.styles.services);
+  const servicesStyles = applyStyles(themeData?.styles?.services || {});
 
   return (
     <section ref={servicesRef} className="py-20 bg-gray-50" style={servicesStyles}>
