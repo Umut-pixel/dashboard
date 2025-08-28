@@ -4,31 +4,31 @@ A comprehensive website management dashboard built with Next.js, React, and shad
 
 ## Features
 
-### 🚀 Website Monitoring
+### Website Monitoring
 - **Performance Tracking**: Monitor page load times, Core Web Vitals, and performance metrics
 - **Uptime Monitoring**: Real-time uptime status and historical data
 - **SEO Analysis**: Track SEO scores, mobile friendliness, and accessibility
 - **Alert System**: Get notified of performance issues and downtime
 
-### 🧩 Component Management
+### Component Management
 - **Component Library**: Create, edit, and manage website components
 - **Template System**: Use pre-built templates for common layouts
 - **Code Editor**: Built-in code editor for component development
 - **Version Control**: Track component changes and versions
 
-### 📊 Analytics & Insights
+### Analytics & Insights
 - **Traffic Analysis**: Detailed visitor and pageview analytics
 - **User Behavior**: Track user engagement and interaction patterns
 - **Device Analytics**: Monitor traffic by device type and browser
 - **Geographic Data**: View traffic distribution by location
 
-### 💼 Business Analytics
+### Business Analytics
 - **Revenue Tracking**: Monitor sales, revenue, and growth metrics
 - **Customer Analytics**: Track customer acquisition and retention
 - **Product Performance**: Analyze top-performing products and categories
 - **Business Intelligence**: Comprehensive business insights and reporting
 
-### 🔍 Activity Monitoring
+### Activity Monitoring
 - **System Logs**: Real-time system logs and error tracking
 - **User Actions**: Monitor user activities and sessions
 - **Security Events**: Track security alerts and authentication events
