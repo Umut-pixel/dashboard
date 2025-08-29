@@ -592,7 +592,7 @@ export default function Page() {
                             size="sm" 
                             className="mt-2"
                             onClick={() => {
-                              const url = prompt('Website URL\'sini girin:')
+                              const url = prompt('Website URL&apos;sini girin:')
                               if (url) checkWebsiteStatus(url)
                             }}
                           >

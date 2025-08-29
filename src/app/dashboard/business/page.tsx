@@ -28,10 +28,10 @@ const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default:
 const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
 const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
 const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-ignore - Recharts type compatibility issue
+// @ts-expect-error - Recharts type compatibility issue
 const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
 const PieChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.PieChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-ignore - Recharts type compatibility issue
+// @ts-expect-error - Recharts type compatibility issue
 const Pie = dynamic(() => import("recharts").then((mod) => ({ default: mod.Pie })), { ssr: false }) as React.ComponentType<any>
 const Cell = dynamic(() => import("recharts").then((mod) => ({ default: mod.Cell })), { ssr: false }) as React.ComponentType<any>
 

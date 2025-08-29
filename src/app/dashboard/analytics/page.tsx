@@ -32,10 +32,10 @@ const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default:
 const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
 const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
 const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-ignore - Recharts type compatibility issue
+// @ts-expect-error - Recharts type compatibility issue
 const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
 const AreaChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.AreaChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-ignore - Recharts type compatibility issue
+// @ts-expect-error - Recharts type compatibility issue
 const Area = dynamic(() => import("recharts").then((mod) => ({ default: mod.Area })), { ssr: false }) as React.ComponentType<any>
 
 const trafficData = [

@@ -92,7 +92,7 @@ interface ThemeData {
 
 interface ThemeContextType {
   themeData: ThemeData
-  updateThemeData: (path: string, value: any) => void
+  updateThemeData: (path: string, value: string | number | boolean | string[]) => void
   saveThemeData: () => void
   loadThemeData: () => void
   resetThemeData: () => void
@@ -218,11 +218,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     loadThemeData()
   }, [])
 
-  const updateThemeData = useCallback((path: string, value: any) => {
+  const updateThemeData = useCallback((path: string, value: string | number | boolean | string[]) => {
     setThemeData(prevData => {
       const newData = { ...prevData }
       const keys = path.split('.')
-      let current: any = newData
+      let current: Record<string, any> = newData
       
       // Güvenli nested object erişimi
       for (let i = 0; i < keys.length - 1; i++) {

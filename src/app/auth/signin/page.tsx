@@ -57,7 +57,7 @@ export default function SignInPage() {
       } else {
         router.push('/dashboard')
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Bir hata oluştu')
     } finally {
       setIsLoading(false)
@@ -145,8 +145,8 @@ export default function SignInPage() {
                 />
               </div>
 
-              {error && (
-                <div className="text-red-500 text-sm">{error}</div>
+              {_error && (
+                <div className="text-red-500 text-sm">{_error}</div>
               )}
 
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>

@@ -25,11 +25,21 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Global error handler for unhandled promise rejections
+              window.addEventListener('unhandledrejection', function(event) {
+                console.warn('Unhandled promise rejection:', event.reason);
+                event.preventDefault();
+              });
+              
               window.addEventListener('load', function() {
                 setTimeout(function() {
-                  if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function') {
-                    console.log('Initializing UnicornStudio from layout');
-                    window.UnicornStudio.init();
+                  try {
+                    if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function') {
+                      console.log('Initializing UnicornStudio from layout');
+                      window.UnicornStudio.init();
+                    }
+                  } catch (error) {
+                    console.warn('UnicornStudio initialization failed:', error);
                   }
                 }, 1000);
               });
