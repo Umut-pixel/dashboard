@@ -222,7 +222,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setThemeData(prevData => {
       const newData = { ...prevData }
       const keys = path.split('.')
-      let current: Record<string, any> = newData
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let current: Record<string, any> = newData
       
       // Güvenli nested object erişimi
       for (let i = 0; i < keys.length - 1; i++) {

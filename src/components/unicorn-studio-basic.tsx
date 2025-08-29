@@ -21,8 +21,10 @@ export function UnicornStudioBasic({ projectId, className = "" }: UnicornStudioB
     // Force re-initialization when component mounts
     const timer = setTimeout(() => {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ((window as any).UnicornStudio && typeof (window as any).UnicornStudio.init === 'function') {
           console.log('Re-initializing UnicornStudio from basic component')
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ;(window as any).UnicornStudio.init()
         }
       } catch (error) {

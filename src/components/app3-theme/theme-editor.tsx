@@ -41,7 +41,8 @@ export function ThemeEditor() {
 
   const handleArrayChange = useCallback((path: string, index: number, value: string) => {
     const keys = path.split('.')
-    const currentArray = keys.reduce((obj: any, key) => obj?.[key], themeData) as any[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const currentArray = keys.reduce((obj: any, key) => obj?.[key], themeData) as string[]
     if (Array.isArray(currentArray)) {
       const newArray = [...currentArray]
       newArray[index] = value
@@ -78,13 +79,14 @@ export function ThemeEditor() {
       const reader = new FileReader()
       reader.onload = (e) => {
         try {
-          const importedData = JSON.parse(e.target?.result as string)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const importedData: any = JSON.parse(e.target?.result as string)
           // Tema verilerini güncelle
           Object.keys(importedData).forEach(key => {
             updateThemeData(key, importedData[key])
           })
           alert('Tema verileri içe aktarıldı!')
-        } catch (error) {
+        } catch (_error) {
           alert('Dosya okunamadı!')
         }
       }

@@ -15,6 +15,7 @@ export function SmoothTransition({ children }: SmoothTransitionProps) {
   useEffect(() => {
     // Override router.push to add smooth transitions
     const originalPush = router.push
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router.push = (href: string, options?: any) => {
       setIsTransitioning(true)
       

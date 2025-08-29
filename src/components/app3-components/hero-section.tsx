@@ -55,25 +55,25 @@ export function HeroSection({
     setLocalButton2Text(button2Text)
   }, [button2Text])
 
-  const handleTitleChange = (e: any) => {
+  const handleTitleChange = (e: { target: { value: string } }) => {
     const newTitle = e.target.value
     setLocalTitle(newTitle)
     onTitleChange?.(newTitle)
   }
 
-  const handleDescriptionChange = (e: any) => {
+  const handleDescriptionChange = (e: { target: { value: string } }) => {
     const newDescription = e.target.value
     setLocalDescription(newDescription)
     onDescriptionChange?.(newDescription)
   }
 
-  const handleButton1TextChange = (e: any) => {
+  const handleButton1TextChange = (e: { target: { value: string } }) => {
     const newText = e.target.value
     setLocalButton1Text(newText)
     onButton1TextChange?.(newText)
   }
 
-  const handleButton2TextChange = (e: any) => {
+  const handleButton2TextChange = (e: { target: { value: string } }) => {
     const newText = e.target.value
     setLocalButton2Text(newText)
     onButton2TextChange?.(newText)

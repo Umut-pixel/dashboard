@@ -46,7 +46,8 @@ export function PerformanceMonitor() {
         const entries = list.getEntries()
         entries.forEach(entry => {
           if (entry.entryType === 'first-input') {
-            const fidEntry = entry as PerformanceEventTiming
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const fidEntry = entry as any
             setMetrics(prev => ({ ...prev, fid: fidEntry.processingStart - fidEntry.startTime }))
           }
         })
@@ -56,6 +57,7 @@ export function PerformanceMonitor() {
       // Cumulative Layout Shift
       const clsObserver = new PerformanceObserver((list) => {
         let clsValue = 0
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         list.getEntries().forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value

@@ -27,7 +27,9 @@ export function UnicornStudioEmbedded({ projectId, className = "" }: UnicornStud
       if (!window.UnicornStudio.isInitialized) {
         try {
           // Try to initialize using the global UnicornStudio object
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           if (typeof (window as any).UnicornStudio !== 'undefined' && (window as any).UnicornStudio.init) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window as any).UnicornStudio.init()
             window.UnicornStudio.isInitialized = true
             console.log('UnicornStudio initialized successfully')

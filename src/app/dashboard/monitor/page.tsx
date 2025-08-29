@@ -11,10 +11,8 @@ import { Label } from "@/components/ui/label"
 import { 
   IconWorld, 
   IconActivity, 
-  IconClock, 
   IconCheck, 
   IconX, 
-  IconAlertTriangle,
   IconPlus,
   IconRefresh,
   IconKey,
@@ -53,7 +51,7 @@ export default function MonitorPage() {
   const [apiKeys, setApiKeys] = useState<APIKey[]>([])
   const [newWebsiteUrl, setNewWebsiteUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedApiKey, setSelectedApiKey] = useState<string>('')
+
 
   // Load data from localStorage
   useEffect(() => {
@@ -79,7 +77,7 @@ export default function MonitorPage() {
     
     try {
       const startTime = Date.now()
-      const response = await fetch(url, { 
+      await fetch(url, { 
         method: 'HEAD',
         mode: 'no-cors'
       })
@@ -107,7 +105,7 @@ export default function MonitorPage() {
           return [...prev, status]
         }
       })
-    } catch (error) {
+    } catch (_error) {
       const status: WebsiteStatus = {
         url,
         status: 'offline',
@@ -199,7 +197,7 @@ export default function MonitorPage() {
                   <div>
                     <h1 className="text-3xl font-bold tracking-tight">Website İzleme</h1>
                     <p className="text-muted-foreground">
-                      Website'larınızın performansını ve durumunu takip edin
+                      Website&apos;larınızın performansını ve durumunu takip edin
                     </p>
                   </div>
                   <div className="flex gap-2">
@@ -248,7 +246,7 @@ export default function MonitorPage() {
                       <div className="mt-2">
                         <div className="text-2xl font-bold">{onlineCount}</div>
                         <div className="text-xs text-muted-foreground">
-                          Aktif website'lar
+                          Aktif website&apos;lar
                         </div>
                       </div>
                     </CardContent>
@@ -278,7 +276,7 @@ export default function MonitorPage() {
                       <div className="mt-2">
                         <div className="text-2xl font-bold">{apiKeys.filter(k => k.status === 'active').length}</div>
                         <div className="text-xs text-muted-foreground">
-                          Kullanılan API key'ler
+                          Kullanılan API key&apos;ler
                         </div>
                       </div>
                     </CardContent>
@@ -292,7 +290,7 @@ export default function MonitorPage() {
                   <CardHeader>
                     <CardTitle>Website Ekle</CardTitle>
                     <CardDescription>
-                      İzlemek istediğiniz website'ı ekleyin
+                      İzlemek istediğiniz website&apos;ı ekleyin
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -323,7 +321,7 @@ export default function MonitorPage() {
                   <CardHeader>
                     <CardTitle>Website Durumları</CardTitle>
                     <CardDescription>
-                      Tüm izlenen website'ların anlık durumu
+                      Tüm izlenen website&apos;ların anlık durumu
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -386,7 +384,7 @@ export default function MonitorPage() {
                         <IconWorld className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                         <h3 className="text-lg font-semibold mb-2">Henüz website eklenmedi</h3>
                         <p className="text-muted-foreground mb-4">
-                          İzlemek istediğiniz website'ı ekleyerek başlayın
+                          İzlemek istediğiniz website&apos;ı ekleyerek başlayın
                         </p>
                       </div>
                     )}
@@ -399,10 +397,10 @@ export default function MonitorPage() {
                 <div className="px-4 lg:px-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Aktif API Key'ler</CardTitle>
-                      <CardDescription>
-                        Website izleme için kullanılan API key'ler
-                      </CardDescription>
+                      <CardTitle>Aktif API Key&apos;ler</CardTitle>
+                                              <CardDescription>
+                          Website izleme için kullanılan API key&apos;ler
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">

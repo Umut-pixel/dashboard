@@ -13,7 +13,9 @@ import { Play, Settings, Code, Zap } from 'lucide-react'
 
 interface AnimationEditorProps {
   componentName: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   animation: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onAnimationChange: (property: string, value: any) => void
 }
 
@@ -94,6 +96,7 @@ export function AnimationEditor({ componentName, animation, onAnimationChange }:
   const [activeTab, setActiveTab] = useState('settings')
   const [previewAnimation, setPreviewAnimation] = useState(false)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = useCallback((property: string, value: any) => {
     onAnimationChange(property, value)
   }, [onAnimationChange])

@@ -14,27 +14,36 @@ export function UnicornStudioDirect({ projectId, className = "" }: UnicornStudio
     if (typeof window === 'undefined' || !containerRef.current) return
 
     // Check if already initialized
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((window as any).UnicornStudio?.isInitialized) return
 
     // Initialize exactly as provided in your code
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(window as any).UnicornStudio) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).UnicornStudio = { isInitialized: false }
       
       const script = document.createElement("script")
       script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js"
       script.onload = function() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (!(window as any).UnicornStudio.isInitialized) {
           try {
             // Use the global UnicornStudio object that should be available after script load
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if (typeof (window as any).UnicornStudio !== 'undefined' && (window as any).UnicornStudio.init) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (window as any).UnicornStudio.init()
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (window as any).UnicornStudio.isInitialized = true
               console.log('UnicornStudio initialized successfully')
             } else {
               // Try alternative initialization
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const globalUnicornStudio = (window as any).UnicornStudio
               if (globalUnicornStudio && globalUnicornStudio.init) {
                 globalUnicornStudio.init()
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (window as any).UnicornStudio.isInitialized = true
                 console.log('UnicornStudio initialized via global object')
               } else {

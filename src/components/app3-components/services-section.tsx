@@ -16,6 +16,7 @@ interface ServicesSectionProps {
   title?: string
   description?: string
   services?: Array<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     icon: any
     title: string
     description: string
@@ -83,12 +84,14 @@ export function ServicesSection({
     setLocalDescription(description)
   }, [description])
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleTitleChange = (e: any) => {
     const newTitle = e.target.value
     setLocalTitle(newTitle)
     onTitleChange?.(newTitle)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDescriptionChange = (e: any) => {
     const newDescription = e.target.value
     setLocalDescription(newDescription)

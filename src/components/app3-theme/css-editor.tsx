@@ -13,6 +13,7 @@ import { Palette, Type, Layout, Zap, Sparkles, Eye, Code } from 'lucide-react'
 
 interface CSSEditorProps {
   componentName: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   styles: any
   onStyleChange: (property: string, value: string) => void
 }

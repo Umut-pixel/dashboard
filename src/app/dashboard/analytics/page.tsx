@@ -24,18 +24,29 @@ import {
 import dynamic from "next/dynamic"
 
 // Dynamically import Recharts components to avoid SSR issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
 // @ts-expect-error - Recharts type compatibility issue
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AreaChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.AreaChart })), { ssr: false }) as React.ComponentType<any>
 // @ts-expect-error - Recharts type compatibility issue
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Area = dynamic(() => import("recharts").then((mod) => ({ default: mod.Area })), { ssr: false }) as React.ComponentType<any>
 
 const trafficData = [

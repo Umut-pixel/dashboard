@@ -5,7 +5,7 @@ import { Edit3, Check, X } from 'lucide-react'
 
 interface EditableTextProps {
   initialText: string
-  element?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
+  element?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
   className?: string
   onTextChange?: (newText: string) => void
   isEditing?: boolean
@@ -76,7 +76,36 @@ export function EditableText({
     }
   }
 
-  const Element = element as keyof React.JSX.IntrinsicElements
+  const renderElement = () => {
+    const elementProps = {
+      className: `${className} cursor-pointer hover:bg-blue-50 hover:bg-opacity-50 rounded px-1 py-0.5 transition-colors`,
+      onClick: handleClick,
+      children: text
+    }
+
+    switch (element) {
+      case 'h1':
+        return <h1 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h2':
+        return <h2 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h3':
+        return <h3 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h4':
+        return <h4 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h5':
+        return <h5 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h6':
+        return <h6 {...elementProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'p':
+        return <p {...elementProps} ref={textRef as React.Ref<HTMLParagraphElement>} />
+      case 'span':
+        return <span {...elementProps} ref={textRef as React.Ref<HTMLSpanElement>} />
+      case 'div':
+        return <div {...elementProps} ref={textRef as React.Ref<HTMLDivElement>} />
+      default:
+        return <span {...elementProps} ref={textRef as React.Ref<HTMLSpanElement>} />
+    }
+  }
 
   if (isActuallyEditing) {
     return (
@@ -120,13 +149,7 @@ export function EditableText({
 
   return (
     <div className="group relative">
-      <Element
-        ref={textRef}
-        className={`${className} cursor-pointer hover:bg-blue-50 hover:bg-opacity-50 rounded px-1 py-0.5 transition-colors`}
-        onClick={handleClick}
-      >
-        {text}
-      </Element>
+      {renderElement()}
       <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <Edit3 className="w-3 h-3 text-blue-500" />
       </div>

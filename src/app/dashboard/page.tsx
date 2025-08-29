@@ -1,8 +1,7 @@
 "use client"
 
 import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
+
 import { SiteHeader } from "@/components/site-header"
 import {
   SidebarInset,
@@ -15,17 +14,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { 
   IconWorld, 
-  IconUsers, 
   IconTrendingUp,
-  IconTrendingDown,
-  IconCircleCheck,
   IconAlertTriangle,
   IconEye,
   IconClock,
   IconEdit,
   IconPalette,
   IconPlus,
-  IconEye as IconView,
   IconKey,
   IconCheck,
   IconX,
@@ -39,7 +34,7 @@ import { useSession } from "next-auth/react"
 import { FullPageLoading } from "@/components/loading-spinner"
 import { useState, useEffect } from "react"
 
-import data from "./data.json"
+
 
 // API Key Management System
 interface APIKey {
@@ -556,7 +551,7 @@ export default function Page() {
                     <CardHeader>
                       <CardTitle>Website Performansı</CardTitle>
                       <CardDescription>
-                        API key ile izlenen website'ların performans durumu
+                        API key ile izlenen website&apos;ların performans durumu
                       </CardDescription>
                     </CardHeader>
                     <CardContent>

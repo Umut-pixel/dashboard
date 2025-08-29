@@ -27,8 +27,10 @@ export function UnicornStudioSimple({ projectId, className = "" }: UnicornStudio
       setTimeout(() => {
         try {
           // Try to initialize UnicornStudio
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           if (typeof window !== 'undefined' && (window as any).UnicornStudio) {
             console.log('Calling UnicornStudio.init()')
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ;(window as any).UnicornStudio.init()
             console.log('UnicornStudio initialized successfully')
           } else {

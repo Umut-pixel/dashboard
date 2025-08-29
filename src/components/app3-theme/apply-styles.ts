@@ -32,9 +32,11 @@ export function applyStyles(styles: CSSStyles): React.CSSProperties {
     ...(styles.borderRadius && { borderRadius: styles.borderRadius }),
     ...(styles.border && { border: styles.border }),
     ...(styles.boxShadow && { boxShadow: styles.boxShadow }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...(styles.textAlign && { textAlign: styles.textAlign as any }),
     ...(styles.lineHeight && { lineHeight: styles.lineHeight }),
     ...(styles.letterSpacing && { letterSpacing: styles.letterSpacing }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...(styles.textTransform && { textTransform: styles.textTransform as any }),
     ...(styles.opacity && { opacity: styles.opacity }),
     ...(styles.transform && { transform: styles.transform }),

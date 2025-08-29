@@ -99,6 +99,7 @@ export default function ThemeEditPage() {
   }
 
   // Tema ayarlarını güncelle
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateThemeSettings = async (path: string, value: any) => {
     if (!theme) return
 
@@ -113,6 +114,7 @@ export default function ThemeEditPage() {
       let current = newSettings
       
       for (let i = 0; i < pathArray.length - 1; i++) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         current = current[pathArray[i] as keyof typeof current] as any
       }
       current[pathArray[pathArray.length - 1] as keyof typeof current] = value
