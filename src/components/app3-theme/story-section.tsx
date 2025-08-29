@@ -89,8 +89,8 @@ export function StorySection() {
                     Misyonumuz
                   </h4>
                   <p className="text-muted-foreground">
-                    "Misyonumuz, kullanıcıların iş süreçlerini 
-                    sadeleştirmek, verimliliği artırmak ve rekabet avantajı sağlamaktır."
+                    &quot;Misyonumuz, kullanıcıların iş süreçlerini 
+                    sadeleştirmek, verimliliği artırmak ve rekabet avantajı sağlamaktır.&quot;
                   </p>
                 </div>
               </CardContent>

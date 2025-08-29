@@ -66,9 +66,4 @@ export function UnicornStudioBackground({ projectId, className = "" }: UnicornSt
   )
 }
 
-// Add UnicornStudio to window object
-declare global {
-  interface Window {
-    UnicornStudio?: any
-  }
-}
+

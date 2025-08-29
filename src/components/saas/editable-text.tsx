@@ -135,7 +135,34 @@ export function EditableText({
     onTextChange?.(newText)
   }
 
-  const Element = element as keyof JSX.IntrinsicElements
+  const renderElement = () => {
+    const commonProps = {
+      className: `${className} cursor-pointer hover:bg-blue-50 hover:bg-opacity-50 rounded px-2 py-1 transition-colors`,
+      onClick: handleClick,
+      children: text || placeholder
+    }
+
+    switch (element) {
+      case 'h1':
+        return <h1 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h2':
+        return <h2 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h3':
+        return <h3 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h4':
+        return <h4 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h5':
+        return <h5 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'h6':
+        return <h6 {...commonProps} ref={textRef as React.Ref<HTMLHeadingElement>} />
+      case 'p':
+        return <p {...commonProps} ref={textRef as React.Ref<HTMLParagraphElement>} />
+      case 'span':
+        return <span {...commonProps} ref={textRef as React.Ref<HTMLSpanElement>} />
+      default:
+        return <p {...commonProps} ref={textRef as React.Ref<HTMLParagraphElement>} />
+    }
+  }
 
   if (isActuallyEditing) {
     return (
@@ -189,13 +216,7 @@ export function EditableText({
 
   return (
     <div className="group relative">
-      <Element
-        ref={textRef}
-        className={`${className} cursor-pointer hover:bg-blue-50 hover:bg-opacity-50 rounded px-2 py-1 transition-colors`}
-        onClick={handleClick}
-      >
-        {text || placeholder}
-      </Element>
+      {renderElement()}
       <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <Edit3 className="w-4 h-4 text-blue-500" />
       </div>

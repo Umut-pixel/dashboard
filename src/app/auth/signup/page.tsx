@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Github } from 'lucide-react'
 import { FullPageLoading } from '@/components/loading-spinner'
 import { UnicornStudioBasic } from '@/components/unicorn-studio-basic'
 import { LoginAnimations, FloatingParticles } from '@/components/login-animations'
@@ -23,7 +21,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [_error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [isTransitioning, setIsTransitioning] = useState(false)
   const router = useRouter()
@@ -208,8 +206,8 @@ export default function SignUpPage() {
                 />
               </div>
 
-              {error && (
-                <div className="text-red-500 text-sm">{error}</div>
+              {_error && (
+                <div className="text-red-500 text-sm">{_error}</div>
               )}
 
               {success && (

@@ -3,15 +3,15 @@
 import { useEffect, useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
   IconUserCircle,
   IconPhone,
   IconBuilding,
   IconMapPin,
   IconBriefcase,
+  IconSettings,
+  IconHelp,
 } from "@tabler/icons-react"
 
 import {
@@ -122,25 +122,53 @@ export function NavUser() {
             {profile && (
               <DropdownMenuGroup>
                 {profile.phone && (
-                  <DropdownMenuItem disabled className="text-xs">
+                  <DropdownMenuItem 
+                    className="text-xs"
+                    onClick={() => {
+                      // Copy phone to clipboard
+                      navigator.clipboard.writeText(profile.phone)
+                      alert('Telefon numarası kopyalandı!')
+                    }}
+                  >
                     <IconPhone className="h-3 w-3 mr-2" />
                     {profile.phone}
                   </DropdownMenuItem>
                 )}
                 {profile.position && (
-                  <DropdownMenuItem disabled className="text-xs">
+                  <DropdownMenuItem 
+                    className="text-xs"
+                    onClick={() => {
+                      // Copy position to clipboard
+                      navigator.clipboard.writeText(profile.position)
+                      alert('Pozisyon kopyalandı!')
+                    }}
+                  >
                     <IconBriefcase className="h-3 w-3 mr-2" />
                     {profile.position}
                   </DropdownMenuItem>
                 )}
                 {profile.company && (
-                  <DropdownMenuItem disabled className="text-xs">
+                  <DropdownMenuItem 
+                    className="text-xs"
+                    onClick={() => {
+                      // Copy company to clipboard
+                      navigator.clipboard.writeText(profile.company)
+                      alert('Şirket adı kopyalandı!')
+                    }}
+                  >
                     <IconBuilding className="h-3 w-3 mr-2" />
                     {profile.company}
                   </DropdownMenuItem>
                 )}
                 {profile.location && (
-                  <DropdownMenuItem disabled className="text-xs">
+                  <DropdownMenuItem 
+                    className="text-xs"
+                    onClick={() => {
+                      // Copy location to clipboard
+                      navigator.clipboard.writeText(profile.location)
+                      alert('Konum kopyalandı!')
+                    }}
+                  >
                     <IconMapPin className="h-3 w-3 mr-2" />
                     {profile.location}
                   </DropdownMenuItem>
@@ -156,13 +184,17 @@ export function NavUser() {
                   Profil Yönetimi
                 </a>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Faturalandırma
+              <DropdownMenuItem asChild>
+                <a href="/dashboard/settings">
+                  <IconSettings />
+                  Ayarlar
+                </a>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Bildirimler
+              <DropdownMenuItem asChild>
+                <a href="/dashboard/help">
+                  <IconHelp />
+                  Yardım
+                </a>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

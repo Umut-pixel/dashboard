@@ -90,7 +90,7 @@ export function FeaturesSection() {
             Özelliklerimiz
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Neden Aygıt'ı Seçmelisiniz?
+                            Neden Aygıt&apos;ı Seçmelisiniz?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Teknoloji, güvenlik ve performans odaklı çözümlerimizle 

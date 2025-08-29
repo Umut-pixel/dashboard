@@ -8,36 +8,32 @@ import {
 } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   IconTrendingUp, 
-  IconTrendingDown, 
   IconUsers, 
   IconCurrencyDollar,
   IconShoppingCart,
-  IconChartBar,
-  IconBuilding,
   IconTarget,
-  IconActivity,
-  IconArrowUpRight,
-  IconArrowDownRight
+  IconArrowUpRight
 } from "@tabler/icons-react"
 import dynamic from "next/dynamic"
 
 // Dynamically import Recharts components to avoid SSR issues
-const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false })
-const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false })
-const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false })
-const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false })
-const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false })
-const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false })
-const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false })
-const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false })
-const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false })
-const PieChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.PieChart })), { ssr: false })
-const Pie = dynamic(() => import("recharts").then((mod) => ({ default: mod.Pie })), { ssr: false })
-const Cell = dynamic(() => import("recharts").then((mod) => ({ default: mod.Cell })), { ssr: false })
+const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false }) as React.ComponentType<any>
+const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false }) as React.ComponentType<any>
+const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false }) as React.ComponentType<any>
+const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false }) as React.ComponentType<any>
+const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false }) as React.ComponentType<any>
+const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
+const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
+const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
+// @ts-ignore - Recharts type compatibility issue
+const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
+const PieChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.PieChart })), { ssr: false }) as React.ComponentType<any>
+// @ts-ignore - Recharts type compatibility issue
+const Pie = dynamic(() => import("recharts").then((mod) => ({ default: mod.Pie })), { ssr: false }) as React.ComponentType<any>
+const Cell = dynamic(() => import("recharts").then((mod) => ({ default: mod.Cell })), { ssr: false }) as React.ComponentType<any>
 
 const revenueData = [
   { month: "Jan", revenue: 12000, orders: 45 },
@@ -194,7 +190,7 @@ export default function BusinessPage() {
                               cx="50%"
                               cy="50%"
                               labelLine={false}
-                              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                              label={({ name, percent }: { name: string; percent: number }) => `${name} ${(percent * 100).toFixed(0)}%`}
                               outerRadius={80}
                               fill="#8884d8"
                               dataKey="value"

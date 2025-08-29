@@ -77,7 +77,13 @@ export async function PUT(
     }
 
     // Güncelleme
-    const updateData: any = {
+    const updateData: {
+      lastEdited: Date;
+      version: number;
+      settings?: typeof settings;
+      name?: string;
+      isActive?: boolean;
+    } = {
       lastEdited: new Date(),
       version: theme.version + 1,
     };

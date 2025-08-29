@@ -2,32 +2,20 @@
 
 import * as React from "react"
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
   IconHelp,
   IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
   IconSearch,
   IconSettings,
   IconUsers,
   IconWorld,
-  IconCode,
-  IconBuilding,
   IconActivity,
   IconLayout,
-  IconEdit,
   IconPalette,
   IconUser,
 } from "@tabler/icons-react"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
@@ -54,19 +42,14 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Kod Yükleme",
-      url: "/dashboard/code-upload",
-      icon: IconCode,
-    },
-    {
       title: "Website İzleme",
       url: "/dashboard/monitor",
       icon: IconWorld,
     },
     {
-      title: "Bileşenler",
-      url: "/dashboard/components",
-      icon: IconCode,
+      title: "Tema Yönetimi",
+      url: "/dashboard/themes",
+      icon: IconPalette,
     },
     {
       title: "Analitik",
@@ -113,14 +96,6 @@ const data = {
         {
           title: "Website Editörü",
           url: "/dashboard/editor",
-        },
-        {
-          title: "UI Bileşenleri",
-          url: "/dashboard/components/ui",
-        },
-        {
-          title: "Şablonlar",
-          url: "/dashboard/components/templates",
         },
         {
           title: "Tema Ayarları",
@@ -170,23 +145,6 @@ const data = {
       icon: IconSearch,
     },
   ],
-  documents: [
-    {
-      name: "Veri Kütüphanesi",
-      url: "/dashboard/data",
-      icon: IconDatabase,
-    },
-    {
-      name: "Raporlar",
-      url: "/dashboard/reports",
-      icon: IconReport,
-    },
-    {
-      name: "Kelime Asistanı",
-      url: "/dashboard/assistant",
-      icon: IconFileWord,
-    },
-  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -209,7 +167,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

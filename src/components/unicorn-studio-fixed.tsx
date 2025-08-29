@@ -79,11 +79,4 @@ export function UnicornStudioFixed({ projectId, className = "" }: UnicornStudioF
   )
 }
 
-// Add UnicornStudio to window object
-declare global {
-  interface Window {
-    UnicornStudio?: {
-      isInitialized: boolean
-    }
-  }
-}
+

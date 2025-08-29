@@ -10,22 +10,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
-  IconUsers,
   IconUserPlus,
   IconSearch,
   IconFilter,
   IconEdit,
   IconTrash,
   IconShield,
-  IconMail,
-  IconPhone,
-  IconBuilding,
-  IconCalendar,
-  IconCheck,
-  IconX
+  IconCheck
 } from "@tabler/icons-react"
 
 // Mock user data
@@ -137,9 +130,11 @@ export default function UsersPage() {
                       Kullanıcıları yönetin, roller ve izinleri düzenleyin
                     </p>
                   </div>
-                  <Button>
-                    <IconUserPlus className="h-4 w-4 mr-2" />
-                    Yeni Kullanıcı Ekle
+                  <Button asChild>
+                    <a href="/dashboard/users/new">
+                      <IconUserPlus className="h-4 w-4 mr-2" />
+                      Yeni Kullanıcı Ekle
+                    </a>
                   </Button>
                 </div>
               </div>
@@ -199,7 +194,11 @@ export default function UsersPage() {
                           </div>
                           <div className="space-y-2">
                             <Label>&nbsp;</Label>
-                            <Button variant="outline" className="w-full">
+                            <Button 
+                              variant="outline" 
+                              className="w-full"
+                              type="submit"
+                            >
                               <IconFilter className="h-4 w-4 mr-2" />
                               Filtrele
                             </Button>
@@ -234,10 +233,22 @@ export default function UsersPage() {
                                 </div>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Button variant="outline" size="sm">
-                                  <IconEdit className="h-4 w-4" />
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  asChild
+                                >
+                                  <a href={`/dashboard/users/${user.id}/edit`}>
+                                    <IconEdit className="h-4 w-4" />
+                                  </a>
                                 </Button>
-                                <Button variant="outline" size="sm" className="text-red-500">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="text-red-500"
+                                  type="button"
+                                  formAction={`/api/users/${user.id}/delete`}
+                                >
                                   <IconTrash className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -268,9 +279,15 @@ export default function UsersPage() {
                                     {role.permissions.length} İzin
                                   </Badge>
                                 </div>
-                                <Button variant="outline" size="sm">
-                                  <IconEdit className="h-4 w-4 mr-2" />
-                                  Düzenle
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  asChild
+                                >
+                                  <a href={`/dashboard/users/roles/${role.name}/edit`}>
+                                    <IconEdit className="h-4 w-4 mr-2" />
+                                    Düzenle
+                                  </a>
                                 </Button>
                               </div>
                               <div className="grid gap-2 md:grid-cols-3">

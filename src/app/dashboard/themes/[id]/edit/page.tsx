@@ -99,7 +99,7 @@ export default function ThemeEditPage() {
   }
 
   // Tema ayarlarını güncelle
-  const updateThemeSettings = async (path: string, value: string) => {
+  const updateThemeSettings = async (path: string, value: any) => {
     if (!theme) return
 
     setIsSaving(true)
@@ -355,10 +355,10 @@ export default function ThemeEditPage() {
                                 <EditableText
                                   initialText={item.title}
                                   element="h3"
-                                  onSave={(text) => {
+                                  onSave={async (text) => {
                                     const newItems = [...theme.settings.services.items]
                                     newItems[index].title = text
-                                    updateThemeSettings('services.items', JSON.stringify(newItems))
+                                    await updateThemeSettings('services.items', newItems)
                                   }}
                                   className="text-lg font-semibold"
                                 />
@@ -368,10 +368,10 @@ export default function ThemeEditPage() {
                                 <EditableText
                                   initialText={item.description}
                                   element="p"
-                                  onSave={(text) => {
+                                  onSave={async (text) => {
                                     const newItems = [...theme.settings.services.items]
                                     newItems[index].description = text
-                                    updateThemeSettings('services.items', JSON.stringify(newItems))
+                                    await updateThemeSettings('services.items', newItems)
                                   }}
                                   className="text-sm"
                                 />

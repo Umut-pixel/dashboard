@@ -107,7 +107,7 @@ export function ServicesSection({
               className="text-4xl font-bold text-gray-900 mb-4 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-2 py-1 cursor-text"
               tagName="h2"
               onBlur={() => onTitleChange?.(localTitle)}
-              onKeyDown={(e) => {
+              onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
                 if (e.key === 'Enter') {
                   e.preventDefault()
                   e.currentTarget.blur()
@@ -127,7 +127,7 @@ export function ServicesSection({
               className="text-xl text-gray-600 max-w-3xl mx-auto outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-2 py-1 cursor-text"
               tagName="p"
               onBlur={() => onDescriptionChange?.(localDescription)}
-              onKeyDown={(e) => {
+              onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
                 if (e.key === 'Enter') {
                   e.preventDefault()
                   e.currentTarget.blur()

@@ -469,9 +469,15 @@ export function DataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm">
-            <IconPlus />
-            <span className="hidden lg:inline">Bölüm Ekle</span>
+          <Button 
+            variant="outline" 
+            size="sm"
+            asChild
+          >
+            <a href="/dashboard/sections/new">
+              <IconPlus />
+              <span className="hidden lg:inline">Bölüm Ekle</span>
+            </a>
           </Button>
         </div>
       </div>

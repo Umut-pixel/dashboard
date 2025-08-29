@@ -2,7 +2,15 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // In-memory storage for demo purposes
 // In production, you'd use a database
-let uploadedFiles: any[] = []
+const uploadedFiles: Array<{
+  id: string;
+  name: string;
+  type: string;
+  content: string;
+  isEditable: boolean;
+  lastModified: string;
+  size: number;
+}> = []
 
 export async function GET() {
   return NextResponse.json({ files: uploadedFiles })

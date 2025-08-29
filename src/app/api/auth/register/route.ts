@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Şifreyi response'dan çıkar
-    const { password: _, ...userWithoutPassword } = user.toObject();
+    const { password: _unused, ...userWithoutPassword } = user.toObject();
 
     return NextResponse.json(
       { 

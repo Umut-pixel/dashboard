@@ -27,8 +27,8 @@ export function UnicornStudioEmbedded({ projectId, className = "" }: UnicornStud
       if (!window.UnicornStudio.isInitialized) {
         try {
           // Try to initialize using the global UnicornStudio object
-          if (typeof UnicornStudio !== 'undefined' && UnicornStudio.init) {
-            UnicornStudio.init()
+          if (typeof (window as any).UnicornStudio !== 'undefined' && (window as any).UnicornStudio.init) {
+            (window as any).UnicornStudio.init()
             window.UnicornStudio.isInitialized = true
             console.log('UnicornStudio initialized successfully')
           } else {
@@ -56,12 +56,4 @@ export function UnicornStudioEmbedded({ projectId, className = "" }: UnicornStud
   )
 }
 
-// Add UnicornStudio to window object
-declare global {
-  interface Window {
-    UnicornStudio: {
-      isInitialized: boolean
-    }
-  }
-  const UnicornStudio: any
-}
+

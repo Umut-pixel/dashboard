@@ -10,17 +10,13 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { 
-  IconActivity, 
   IconAlertTriangle, 
   IconCircleCheck, 
   IconInfoCircle,
-  IconClock,
   IconUser,
-  IconSettings,
   IconCode,
   IconWorld,
   IconDatabase,
-  IconFileText,
   IconShield
 } from "@tabler/icons-react"
 

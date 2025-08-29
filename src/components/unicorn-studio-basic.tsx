@@ -54,9 +54,4 @@ export function UnicornStudioBasic({ projectId, className = "" }: UnicornStudioB
   )
 }
 
-// Add UnicornStudio to window object
-declare global {
-  interface Window {
-    UnicornStudio?: any
-  }
-}
+

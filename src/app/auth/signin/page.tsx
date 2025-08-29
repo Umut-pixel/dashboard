@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Github, Mail } from 'lucide-react'
 import { FullPageLoading } from '@/components/loading-spinner'
 import { UnicornStudioBasic } from '@/components/unicorn-studio-basic'
 import { LoginAnimations, FloatingParticles } from '@/components/login-animations'
@@ -21,7 +19,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [_error, setError] = useState('')
   const [isTransitioning, setIsTransitioning] = useState(false)
   const router = useRouter()
 

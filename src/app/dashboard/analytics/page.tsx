@@ -8,36 +8,35 @@ import {
 } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { 
   IconUsers, 
   IconEye, 
-  IconMouse, 
   IconClock, 
   IconDeviceMobile,
   IconDeviceDesktop,
   IconGlobe,
   IconTrendingUp,
   IconTrendingDown,
-  IconChartBar,
   IconActivity
 } from "@tabler/icons-react"
 import dynamic from "next/dynamic"
 
 // Dynamically import Recharts components to avoid SSR issues
-const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false })
-const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false })
-const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false })
-const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false })
-const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false })
-const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false })
-const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false })
-const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false })
-const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false })
-const AreaChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.AreaChart })), { ssr: false })
-const Area = dynamic(() => import("recharts").then((mod) => ({ default: mod.Area })), { ssr: false })
+const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false }) as React.ComponentType<any>
+const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false }) as React.ComponentType<any>
+const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false }) as React.ComponentType<any>
+const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false }) as React.ComponentType<any>
+const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false }) as React.ComponentType<any>
+const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
+const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
+const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
+// @ts-ignore - Recharts type compatibility issue
+const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
+const AreaChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.AreaChart })), { ssr: false }) as React.ComponentType<any>
+// @ts-ignore - Recharts type compatibility issue
+const Area = dynamic(() => import("recharts").then((mod) => ({ default: mod.Area })), { ssr: false }) as React.ComponentType<any>
 
 const trafficData = [
   { date: "Mon", visitors: 1200, pageviews: 3400, sessions: 980 },

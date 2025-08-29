@@ -70,7 +70,7 @@ export function TestimonialsSection() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground italic">
-                  "{testimonial.content}"
+                  &quot;{testimonial.content}&quot;
                 </p>
               </CardContent>
             </Card>

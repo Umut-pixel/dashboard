@@ -3,10 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { dbConnect } from "@/lib/mongoose";
 import { Theme } from "@/models/Theme";
-import { User } from "@/models/User";
-
 // Kullanıcının temalarını getir
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {

@@ -22,22 +22,17 @@ import {
   IconEdit, 
   IconEye, 
   IconTrash, 
-  IconSettings,
-  IconCopy,
-  IconDownload,
-  IconUpload
+  IconSettings
 } from "@tabler/icons-react"
 import Link from "next/link"
 
-const availableThemes = [
-  { id: 'theme-3', name: 'Tema-3', description: 'Modern web sitesi teması' },
-]
+
 
 export default function ThemesPage() {
   const { data: session, status } = useSession()
   const { state: themeState, createTheme, deleteTheme, setActiveTheme } = useTheme()
   const router = useRouter()
-  const [selectedTheme, setSelectedTheme] = useState('')
+
   const [themeName, setThemeName] = useState('')
   const [isCreating, setIsCreating] = useState(false)
 
@@ -109,7 +104,7 @@ export default function ThemesPage() {
               <div className="px-4 lg:px-6">
                 <h1 className="text-3xl font-bold tracking-tight">Tema-3 Yönetimi</h1>
                 <p className="text-muted-foreground">
-                  Tema-3'ünüzü oluşturun, düzenleyin ve yönetin
+                  Tema-3&apos;ünüzü oluşturun, düzenleyin ve yönetin
                 </p>
               </div>
 
@@ -119,7 +114,7 @@ export default function ThemesPage() {
                   <CardHeader>
                     <CardTitle>Yeni Tema-3 Oluştur</CardTitle>
                     <CardDescription>
-                      Tema-3'ün yeni bir versiyonunu oluşturun
+                      Tema-3&apos;ün yeni bir versiyonunu oluşturun
                     </CardDescription>
                   </CardHeader>
                                     <CardContent className="space-y-4">
@@ -145,7 +140,7 @@ export default function ThemesPage() {
 
               {/* My Themes */}
               <div className="px-4 lg:px-6">
-                                     <h2 className="text-xl font-semibold mb-4">Tema-3'lerim</h2>
+                                     <h2 className="text-xl font-semibold mb-4">Tema-3&apos;lerim</h2>
                 
                 {themeState.loading ? (
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -158,86 +153,123 @@ export default function ThemesPage() {
                       </Card>
                     ))}
                   </div>
-                                       ) : themeState.themes.filter(theme => theme.themeId === 'theme-3').length > 0 ? (
-                                       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                       {themeState.themes
-                         .filter(theme => theme.themeId === 'theme-3')
-                         .map((theme) => (
-                                               <Card key={theme._id} className="hover:shadow-md transition-shadow">
-                           <CardHeader>
-                             <div className="flex items-center justify-between">
-                               <div className="flex items-center gap-2">
-                                 <IconPalette className="h-5 w-5 text-blue-500" />
-                                 <CardTitle className="text-lg">{theme.name}</CardTitle>
-                               </div>
-                               <div className="flex gap-1">
-                                 {theme.isActive && (
-                                   <Badge variant="secondary" className="text-xs">
-                                     Aktif
-                                   </Badge>
-                                 )}
-                                 <Badge variant="outline" className="text-xs">
-                                   v{theme.version}
-                                 </Badge>
-                               </div>
-                             </div>
-                             <CardDescription>
-                               Tema-3 - Modern web sitesi teması
-                             </CardDescription>
-                           </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="text-sm text-muted-foreground">
-                            <p>Son düzenleme: {new Date(theme.lastEdited).toLocaleDateString('tr-TR')}</p>
-                            <p>Görüntülenme: {theme.views}</p>
-                          </div>
-                          
-                          <div className="flex flex-wrap gap-2">
-                            <Link href={`/dashboard/themes/${theme._id}/edit`}>
-                              <Button size="sm" variant="outline">
-                                <IconEdit className="h-4 w-4 mr-1" />
-                                Düzenle
+                ) : (
+                  <div className="space-y-8">
+                    {/* Tema-2 Section */}
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold">Tema-2 Koleksiyonu</h2>
+                        <Link href="/dashboard/themes/theme-2">
+                          <Button variant="outline" size="sm">
+                            <IconEye className="h-4 w-4 mr-2" />
+                            Tümünü Görüntüle
+                          </Button>
+                        </Link>
+                      </div>
+                      <Card>
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="text-lg font-semibold">Profesyonel Tema Koleksiyonu</h3>
+                              <p className="text-muted-foreground">Portfolio, E-commerce, Blog ve daha fazlası</p>
+                            </div>
+                            <Link href="/dashboard/themes/theme-2">
+                              <Button>
+                                <IconPlus className="h-4 w-4 mr-2" />
+                                Tema-2&apos;ye Git
                               </Button>
                             </Link>
-                            <Link href={`/dashboard/themes/${theme._id}/preview`}>
-                              <Button size="sm" variant="outline">
-                                <IconEye className="h-4 w-4 mr-1" />
-                                Önizle
-                              </Button>
-                            </Link>
-                            {!theme.isActive && (
-                              <Button 
-                                size="sm" 
-                                variant="outline"
-                                onClick={() => handleSetActive(theme._id)}
-                              >
-                                <IconSettings className="h-4 w-4 mr-1" />
-                                Aktif Yap
-                              </Button>
-                            )}
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              onClick={() => handleDeleteTheme(theme._id)}
-                            >
-                              <IconTrash className="h-4 w-4 mr-1" />
-                              Sil
-                            </Button>
                           </div>
                         </CardContent>
                       </Card>
-                    ))}
+                    </div>
+
+                    {/* Tema-3 Section */}
+                    <div>
+                      <h2 className="text-xl font-semibold mb-4">Tema-3 Projeleri</h2>
+                      {themeState.themes.filter(theme => theme.themeId === 'theme-3').length > 0 ? (
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                          {themeState.themes
+                            .filter(theme => theme.themeId === 'theme-3')
+                            .map((theme) => (
+                              <Card key={theme._id} className="hover:shadow-md transition-shadow">
+                                <CardHeader>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <IconPalette className="h-5 w-5 text-blue-500" />
+                                      <CardTitle className="text-lg">{theme.name}</CardTitle>
+                                    </div>
+                                    <div className="flex gap-1">
+                                      {theme.isActive && (
+                                        <Badge variant="secondary" className="text-xs">
+                                          Aktif
+                                        </Badge>
+                                      )}
+                                      <Badge variant="outline" className="text-xs">
+                                        v{theme.version}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                  <CardDescription>
+                                    Tema-3 - Modern web sitesi teması
+                                  </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                  <div className="text-sm text-muted-foreground">
+                                    <p>Son düzenleme: {new Date(theme.lastEdited).toLocaleDateString('tr-TR')}</p>
+                                    <p>Görüntülenme: {theme.views}</p>
+                                  </div>
+                                  
+                                  <div className="flex flex-wrap gap-2">
+                                    <Link href={`/dashboard/themes/${theme._id}/edit`}>
+                                      <Button size="sm" variant="outline">
+                                        <IconEdit className="h-4 w-4 mr-1" />
+                                        Düzenle
+                                      </Button>
+                                    </Link>
+                                    <Link href={`/dashboard/themes/${theme._id}/preview`}>
+                                      <Button size="sm" variant="outline">
+                                        <IconEye className="h-4 w-4 mr-1" />
+                                        Önizle
+                                      </Button>
+                                    </Link>
+                                    {!theme.isActive && (
+                                      <Button 
+                                        size="sm" 
+                                        variant="outline"
+                                        onClick={() => handleSetActive(theme._id)}
+                                      >
+                                        <IconSettings className="h-4 w-4 mr-1" />
+                                        Aktif Yap
+                                      </Button>
+                                    )}
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline"
+                                      onClick={() => handleDeleteTheme(theme._id)}
+                                    >
+                                      <IconTrash className="h-4 w-4 mr-1" />
+                                      Sil
+                                    </Button>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                        </div>
+                      ) : (
+                        <Card>
+                          <CardContent className="p-8 text-center">
+                            <IconPalette className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold mb-2">Henüz Tema-3 oluşturmadınız</h3>
+                            <p className="text-muted-foreground mb-4">
+                                                             Yukarıdaki formu kullanarak ilk Tema-3&apos;ünüzü oluşturun
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
                   </div>
-                                         ) : (
-                           <Card>
-                             <CardContent className="p-8 text-center">
-                               <IconPalette className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                               <h3 className="text-lg font-semibold mb-2">Henüz Tema-3 oluşturmadınız</h3>
-                               <p className="text-muted-foreground mb-4">
-                                 Yukarıdaki formu kullanarak ilk Tema-3'ünüzü oluşturun
-                               </p>
-                             </CardContent>
-                           </Card>
-                         )}
+                )}
               </div>
             </div>
           </div>

@@ -46,7 +46,8 @@ export function PerformanceMonitor() {
         const entries = list.getEntries()
         entries.forEach(entry => {
           if (entry.entryType === 'first-input') {
-            setMetrics(prev => ({ ...prev, fid: entry.processingStart - entry.startTime }))
+            const fidEntry = entry as PerformanceEventTiming
+            setMetrics(prev => ({ ...prev, fid: fidEntry.processingStart - fidEntry.startTime }))
           }
         })
       })

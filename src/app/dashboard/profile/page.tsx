@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
@@ -49,7 +49,7 @@ export default function ProfilePage() {
   })
 
   // Profil bilgilerini yükle
-  const loadProfile = async () => {
+  const loadProfile = useCallback(async () => {
     if (!session?.user?.id) return
 
     setIsLoading(true)
@@ -73,10 +73,10 @@ export default function ProfilePage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [session?.user?.id])
 
   // Profil güncelle
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!session?.user?.id) return
 
     setIsSaving(true)
@@ -106,14 +106,14 @@ export default function ProfilePage() {
     } finally {
       setIsSaving(false)
     }
-  }
+  }, [session?.user?.id, formData])
 
   // Session değiştiğinde profil yükle
   useEffect(() => {
     if (session?.user?.id) {
       loadProfile()
     }
-  }, [session?.user?.id])
+  }, [session?.user?.id, loadProfile])
 
   // Loading durumunda loading göster
   if (status === 'loading' || isLoading) {

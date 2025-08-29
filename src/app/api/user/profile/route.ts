@@ -5,7 +5,7 @@ import { dbConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
 
 // Kullanıcı profil bilgilerini getir
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -54,7 +54,14 @@ export async function PUT(req: NextRequest) {
 
     await dbConnect();
 
-    const updateData: any = {
+    const updateData: {
+      updatedAt: Date;
+      name?: string;
+      phone?: string;
+      position?: string;
+      company?: string;
+      location?: string;
+    } = {
       updatedAt: new Date(),
     };
 

@@ -98,7 +98,7 @@ export function HeroSection({
             className="text-4xl md:text-6xl font-bold mb-6 leading-tight outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 cursor-text"
             tagName="h1"
             onBlur={() => onTitleChange?.(localTitle)}
-            onKeyDown={(e) => {
+            onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
               if (e.key === 'Enter') {
                 e.preventDefault()
                 e.currentTarget.blur()
@@ -118,7 +118,7 @@ export function HeroSection({
             className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto leading-relaxed outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-2 py-1 cursor-text"
             tagName="p"
             onBlur={() => onDescriptionChange?.(localDescription)}
-            onKeyDown={(e) => {
+            onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
               if (e.key === 'Enter') {
                 e.preventDefault()
                 e.currentTarget.blur()
@@ -143,7 +143,7 @@ export function HeroSection({
                 className="outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-1 cursor-text"
                 tagName="span"
                 onBlur={() => onButton1TextChange?.(localButton1Text)}
-                onKeyDown={(e) => {
+                onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
                     e.currentTarget.blur()
@@ -169,7 +169,7 @@ export function HeroSection({
                 className="outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded px-1 cursor-text"
                 tagName="span"
                 onBlur={() => onButton2TextChange?.(localButton2Text)}
-                onKeyDown={(e) => {
+                onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
                     e.currentTarget.blur()

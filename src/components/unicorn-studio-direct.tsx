@@ -14,28 +14,28 @@ export function UnicornStudioDirect({ projectId, className = "" }: UnicornStudio
     if (typeof window === 'undefined' || !containerRef.current) return
 
     // Check if already initialized
-    if (window.UnicornStudio?.isInitialized) return
+    if ((window as any).UnicornStudio?.isInitialized) return
 
     // Initialize exactly as provided in your code
-    if (!window.UnicornStudio) {
-      window.UnicornStudio = { isInitialized: false }
+    if (!(window as any).UnicornStudio) {
+      (window as any).UnicornStudio = { isInitialized: false }
       
       const script = document.createElement("script")
       script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js"
       script.onload = function() {
-        if (!window.UnicornStudio.isInitialized) {
+        if (!(window as any).UnicornStudio.isInitialized) {
           try {
             // Use the global UnicornStudio object that should be available after script load
-            if (typeof window.UnicornStudio !== 'undefined' && window.UnicornStudio.init) {
-              window.UnicornStudio.init()
-              window.UnicornStudio.isInitialized = true
+            if (typeof (window as any).UnicornStudio !== 'undefined' && (window as any).UnicornStudio.init) {
+              (window as any).UnicornStudio.init()
+              (window as any).UnicornStudio.isInitialized = true
               console.log('UnicornStudio initialized successfully')
             } else {
               // Try alternative initialization
               const globalUnicornStudio = (window as any).UnicornStudio
               if (globalUnicornStudio && globalUnicornStudio.init) {
                 globalUnicornStudio.init()
-                window.UnicornStudio.isInitialized = true
+                (window as any).UnicornStudio.isInitialized = true
                 console.log('UnicornStudio initialized via global object')
               } else {
                 console.log('UnicornStudio loaded but init function not available')
@@ -63,12 +63,4 @@ export function UnicornStudioDirect({ projectId, className = "" }: UnicornStudio
   )
 }
 
-// Add UnicornStudio to window object
-declare global {
-  interface Window {
-    UnicornStudio: {
-      isInitialized: boolean
-      init?: () => void
-    }
-  }
-}
+
