@@ -4,7 +4,7 @@ import { Button } from "@/components/app3-theme/ui/button";
 import { ChevronDown, Sparkles, Zap, Target } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { EditableText } from "./editable-text";
-import { EditableImage } from "./editable-image";
+import { EditableImage as _EditableImage } from "./editable-image";
 import { useTheme } from "./theme-context";
 import { useGSAPAnimation } from "./use-gsap-animation";
 import { applyStyles } from "./apply-styles";
@@ -31,7 +31,7 @@ export function HeroSection() {
     updateThemeData(path, newText);
   };
 
-  const handleImageChange = (newSrc: string) => {
+  const _handleImageChange = (newSrc: string) => {
     updateThemeData('hero.backgroundImage', newSrc);
   };
 

@@ -58,7 +58,7 @@ export function FloatingParticles() {
   useEffect(() => {
     if (particlesRef.current) {
       // Create floating particles
-      const particles = Array.from({ length: 20 }, (_, i) => {
+      const particles = Array.from({ length: 20 }, (_, _i) => {
         const particle = document.createElement('div')
         particle.className = 'absolute w-1 h-1 bg-white/10 rounded-full'
         particle.style.left = `${Math.random() * 100}%`
@@ -73,7 +73,7 @@ export function FloatingParticles() {
       })
 
       // Animate particles
-      particles.forEach((particle, i) => {
+      particles.forEach((particle, _i) => {
         gsap.to(particle, {
           y: -100,
           x: Math.random() * 50 - 25,

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/app3-theme/ui/card"
-import { Input } from "@/components/app3-theme/ui/input"
+import { Input as _Input } from "@/components/app3-theme/ui/input"
 import { Label } from "@/components/app3-theme/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/app3-theme/ui/select"
 import { Slider } from "@/components/app3-theme/ui/slider"
@@ -94,7 +94,7 @@ const customAnimationExamples = {
 
 export function AnimationEditor({ componentName, animation, onAnimationChange }: AnimationEditorProps) {
   const [activeTab, setActiveTab] = useState('settings')
-  const [previewAnimation, setPreviewAnimation] = useState(false)
+  const [_previewAnimation, _setPreviewAnimation] = useState(false)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = useCallback((property: string, value: any) => {
@@ -113,8 +113,8 @@ export function AnimationEditor({ componentName, animation, onAnimationChange }:
   }, [onAnimationChange, animation.customCode])
 
   const handlePreviewAnimation = useCallback(() => {
-    setPreviewAnimation(true)
-    setTimeout(() => setPreviewAnimation(false), 2000)
+    _setPreviewAnimation(true)
+    setTimeout(() => _setPreviewAnimation(false), 2000)
   }, [])
 
   return (

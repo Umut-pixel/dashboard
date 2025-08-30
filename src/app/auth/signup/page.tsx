@@ -91,7 +91,7 @@ export default function SignUpPage() {
           })
         }, 2000)
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Bir hata oluştu')
     } finally {
       setIsLoading(false)

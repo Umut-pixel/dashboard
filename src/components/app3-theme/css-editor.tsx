@@ -6,7 +6,7 @@ import { Input } from "@/components/app3-theme/ui/input"
 import { Label } from "@/components/app3-theme/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/app3-theme/ui/select"
 import { Slider } from "@/components/app3-theme/ui/slider"
-import { Switch } from "@/components/app3-theme/ui/switch"
+import { Switch as _Switch } from "@/components/app3-theme/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/app3-theme/ui/tabs"
 import { ModernColorPicker } from './modern-color-picker'
 import { Palette, Type, Layout, Zap, Sparkles, Eye, Code } from 'lucide-react'
@@ -18,7 +18,7 @@ interface CSSEditorProps {
   onStyleChange: (property: string, value: string) => void
 }
 
-const fontFamilies = [
+const _fontFamilies = [
   'Arial, sans-serif',
   'Helvetica, sans-serif',
   'Times New Roman, serif',
@@ -53,14 +53,14 @@ const fontWeights = [
   '900'
 ]
 
-const textAligns = [
+const _textAligns = [
   'left',
   'center',
   'right',
   'justify'
 ]
 
-const textTransforms = [
+const _textTransforms = [
   'none',
   'capitalize',
   'uppercase',
@@ -95,14 +95,14 @@ const easeFunctions = [
 
 export function CSSEditor({ componentName, styles, onStyleChange }: CSSEditorProps) {
   const [activeTab, setActiveTab] = useState('colors')
-  const [colorValues, setColorValues] = useState({
+  const [_colorValues, _setColorValues] = useState({
     color: styles.color || '#000000',
     backgroundColor: styles.backgroundColor || '#ffffff'
   })
 
   // Update color values when styles change
   useEffect(() => {
-    setColorValues({
+    _setColorValues({
       color: styles.color || '#000000',
       backgroundColor: styles.backgroundColor || '#ffffff'
     })
@@ -112,7 +112,7 @@ export function CSSEditor({ componentName, styles, onStyleChange }: CSSEditorPro
     onStyleChange(property, value)
     // Update local color state for color inputs
     if (property === 'color' || property === 'backgroundColor') {
-      setColorValues(prev => ({
+      _setColorValues(prev => ({
         ...prev,
         [property]: value
       }))
@@ -121,13 +121,13 @@ export function CSSEditor({ componentName, styles, onStyleChange }: CSSEditorPro
 
   const handleColorChange = useCallback((property: string, value: string) => {
     onStyleChange(property, value)
-    setColorValues(prev => ({
+    _setColorValues(prev => ({
       ...prev,
       [property]: value
     }))
   }, [onStyleChange])
 
-  const handleSliderChange = useCallback((property: string, value: number[]) => {
+  const _handleSliderChange = useCallback((property: string, value: number[]) => {
     onStyleChange(property, `${value[0]}px`)
   }, [onStyleChange])
 
@@ -136,12 +136,12 @@ export function CSSEditor({ componentName, styles, onStyleChange }: CSSEditorPro
   }, [onStyleChange])
 
   // Helper function to validate hex color
-  const isValidHexColor = (color: string) => {
+  const _isValidHexColor = (color: string) => {
     return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color)
   }
 
   // Helper function to get default color
-  const getDefaultColor = (property: string) => {
+  const _getDefaultColor = (property: string) => {
     return property === 'color' ? '#000000' : '#ffffff'
   }
 

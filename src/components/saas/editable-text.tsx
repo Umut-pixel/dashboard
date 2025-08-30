@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Edit3, Check, X, Save } from 'lucide-react'
+import { Edit3, Check, X, Save as _Save } from 'lucide-react'
 import { useDebounce } from '@/hooks/use-debounce'
 
 interface EditableTextProps {
@@ -54,12 +54,7 @@ export function EditableText({
     }
   }, [isActuallyEditing])
 
-  // Auto-save with debounce
-  useEffect(() => {
-    if (autoSave && hasChanges && debouncedText !== text && onSave) {
-      handleAutoSave(debouncedText)
-    }
-  }, [debouncedText, autoSave, hasChanges, text, onSave])
+
 
   const handleAutoSave = useCallback(async (newText: string) => {
     if (!onSave) return
@@ -77,6 +72,13 @@ export function EditableText({
       setIsSaving(false)
     }
   }, [onSave, text])
+
+  // Auto-save with debounce
+  useEffect(() => {
+    if (autoSave && hasChanges && debouncedText !== text && onSave) {
+      handleAutoSave(debouncedText)
+    }
+  }, [debouncedText, autoSave, hasChanges, text, onSave, handleAutoSave])
 
   const handleClick = () => {
     if (!isEditing) {

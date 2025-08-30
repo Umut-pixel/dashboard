@@ -76,7 +76,7 @@ const roles = [
 ]
 
 export default function UsersPage() {
-  const [users, setUsers] = useState(mockUsers)
+  const [users, _setUsers] = useState(mockUsers)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedRole, setSelectedRole] = useState("all")
   const [selectedStatus, setSelectedStatus] = useState("all")

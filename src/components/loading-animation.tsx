@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 
 interface LoadingAnimationProps {
   isVisible?: boolean
@@ -125,10 +126,12 @@ export function LoadingAnimation({ isVisible = true, onComplete }: LoadingAnimat
     >
       {/* Logo */}
       <div className="relative mb-8">
-        <img
+        <Image
           ref={logoRef}
           src="/aygit-logo-beyaz.png"
           alt="AYGIT Logo"
+          width={160}
+          height={160}
           className="w-40 h-40 object-contain drop-shadow-2xl"
         />
         

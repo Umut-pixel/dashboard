@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 
 interface AnimationSettings {
@@ -18,7 +18,7 @@ export function useGSAPAnimation(animation: AnimationSettings, trigger: 'onMount
   const elementRef = useRef<HTMLElement>(null)
   const animationRef = useRef<gsap.core.Timeline | null>(null)
 
-  const createAnimation = () => {
+  const createAnimation = useCallback(() => {
     if (!elementRef.current || !animation.enabled) return
 
     // Clear any existing animation
@@ -93,7 +93,7 @@ export function useGSAPAnimation(animation: AnimationSettings, trigger: 'onMount
     }
 
     animationRef.current = timeline
-  }
+  }, [animation])
 
   const playAnimation = () => {
     if (animationRef.current) {
@@ -119,10 +119,13 @@ export function useGSAPAnimation(animation: AnimationSettings, trigger: 'onMount
         animationRef.current.kill()
       }
     }
-  }, [animation, trigger])
+  }, [animation, trigger, createAnimation])
 
   useEffect(() => {
     if (trigger === 'onScroll') {
+      const currentElement = elementRef.current
+      if (!currentElement) return
+
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -135,17 +138,13 @@ export function useGSAPAnimation(animation: AnimationSettings, trigger: 'onMount
         { threshold: 0.1 }
       )
 
-      if (elementRef.current) {
-        observer.observe(elementRef.current)
-      }
+      observer.observe(currentElement)
 
       return () => {
-        if (elementRef.current) {
-          observer.unobserve(elementRef.current)
-        }
+        observer.unobserve(currentElement)
       }
     }
-  }, [animation, trigger])
+  }, [animation, trigger, createAnimation])
 
   return {
     ref: elementRef,

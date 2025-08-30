@@ -17,7 +17,7 @@ import {
   IconTrendingUp,
   IconAlertTriangle,
   IconEye,
-  IconClock,
+  IconClock as _IconClock,
   IconEdit,
   IconPalette,
   IconPlus,
@@ -200,7 +200,7 @@ export default function Page() {
     
     try {
       const startTime = Date.now()
-      const response = await fetch(url, { 
+      const _response = await fetch(url, { 
         method: 'HEAD',
         mode: 'no-cors'
       })
@@ -225,7 +225,7 @@ export default function Page() {
       })
       
       addNotification('success', 'Website Durumu Güncellendi', `${url} başarıyla kontrol edildi.`)
-    } catch (error) {
+    } catch (_error) {
       const status: WebsiteStatus = {
         url,
         status: 'offline',
@@ -270,7 +270,7 @@ export default function Page() {
         }
       })
     }
-  }, [themeState.themes])
+  }, [themeState.themes, apiKeys])
 
   const quickStats = [
     {

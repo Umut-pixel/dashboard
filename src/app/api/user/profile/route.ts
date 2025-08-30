@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
+import { Session } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { dbConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
@@ -7,7 +8,7 @@ import { User } from "@/models/User";
 // Kullanıcı profil bilgilerini getir
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions) as Session | null;
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: "Yetkilendirme gerekli" },
@@ -42,7 +43,7 @@ export async function GET() {
 // Kullanıcı profil bilgilerini güncelle
 export async function PUT(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions) as Session | null;
     if (!session?.user?.id) {
       return NextResponse.json(
         { error: "Yetkilendirme gerekli" },

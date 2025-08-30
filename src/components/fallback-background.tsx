@@ -14,7 +14,7 @@ export function FallbackBackground({ className = "" }: FallbackBackgroundProps) 
     if (!containerRef.current) return
 
     // Create animated background elements
-    const elements = Array.from({ length: 50 }, (_, i) => {
+    const elements = Array.from({ length: 50 }, (_, _i) => {
       const element = document.createElement('div')
       element.className = 'absolute rounded-full opacity-20'
       element.style.width = `${Math.random() * 4 + 2}px`
@@ -27,7 +27,7 @@ export function FallbackBackground({ className = "" }: FallbackBackgroundProps) 
     })
 
     // Animate elements
-    elements.forEach((element, i) => {
+    elements.forEach((element, _i) => {
       gsap.to(element, {
         x: Math.random() * 200 - 100,
         y: Math.random() * 200 - 100,

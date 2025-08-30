@@ -53,7 +53,7 @@ export function NavUser() {
 
   // Profil bilgilerini yükle
   useEffect(() => {
-    if (session?.user?.id) {
+    if ((session?.user as { id: string })?.id) {
       fetch('/api/user/profile')
         .then(res => res.json())
         .then(data => {
@@ -63,7 +63,7 @@ export function NavUser() {
         })
         .catch(err => console.error('Profil yüklenemedi:', err))
     }
-  }, [session?.user?.id])
+  }, [session?.user])
 
   // Session'dan gelen bilgileri kullan
   const user = {

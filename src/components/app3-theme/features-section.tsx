@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/app3-theme/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/app3-theme/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/app3-theme/ui/tabs";
 import { Badge } from "@/components/app3-theme/ui/badge";
 import { Progress } from "@/components/app3-theme/ui/progress";

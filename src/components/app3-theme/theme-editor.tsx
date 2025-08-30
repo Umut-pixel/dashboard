@@ -39,7 +39,7 @@ export function ThemeEditor() {
     updateThemeData(path, value)
   }, [updateThemeData])
 
-  const handleArrayChange = useCallback((path: string, index: number, value: string) => {
+  const _handleArrayChange = useCallback((path: string, index: number, value: string) => {
     const keys = path.split('.')
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const currentArray = keys.reduce((obj: any, key) => obj?.[key], themeData) as string[]

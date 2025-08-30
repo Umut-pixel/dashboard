@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/app3-theme/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/app3-theme/ui/card";
 import { 
   Code, 
   Palette, 

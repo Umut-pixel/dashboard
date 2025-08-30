@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useReducer, useEffect, useCallback, ReactNode } from 'react'
 import { useSession } from 'next-auth/react'
 
 interface ThemeSettings {
@@ -149,8 +149,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(themeReducer, initialState)
   const { data: session } = useSession()
 
-  const fetchThemes = async () => {
-    if (!session?.user?.id) return
+  const fetchThemes = useCallback(async () => {
+    if (!(session?.user as { id: string })?.id) return
 
     try {
       dispatch({ type: 'SET_LOADING', payload: true })
@@ -168,10 +168,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false })
     }
-  }
+  }, [session?.user])
 
   const createTheme = async (themeId: string, name: string): Promise<Theme | null> => {
-    if (!session?.user?.id) return null
+    if (!(session?.user as { id: string })?.id) return null
 
     try {
       dispatch({ type: 'SET_ERROR', payload: null })
@@ -196,7 +196,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   const updateTheme = async (themeId: string, updates: Partial<Theme>) => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     try {
       dispatch({ type: 'SET_ERROR', payload: null })
@@ -219,7 +219,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   const deleteTheme = async (themeId: string) => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     try {
       dispatch({ type: 'SET_ERROR', payload: null })
@@ -239,7 +239,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   const updateThemeSettings = async (themeId: string, settings: Partial<ThemeSettings>) => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     try {
       dispatch({ type: 'SET_ERROR', payload: null })
@@ -262,7 +262,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   const setActiveTheme = async (themeId: string) => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     try {
       dispatch({ type: 'SET_ERROR', payload: null })
@@ -286,10 +286,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Session değiştiğinde temaları yükle
   useEffect(() => {
-    if (session?.user?.id) {
+    if ((session?.user as { id: string })?.id) {
       fetchThemes()
     }
-  }, [session?.user?.id])
+  }, [session?.user, fetchThemes])
 
   const value: ThemeContextType = {
     state,

@@ -214,10 +214,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeData, setThemeData] = useState<ThemeData>(defaultThemeData)
 
-  useEffect(() => {
-    loadThemeData()
-  }, [])
-
   const updateThemeData = useCallback((path: string, value: string | number | boolean | string[]) => {
     setThemeData(prevData => {
       const newData = { ...prevData }
@@ -272,6 +268,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('theme3-data')
     console.log('Tema verileri sıfırlandı')
   }, [])
+
+  useEffect(() => {
+    loadThemeData()
+  }, [loadThemeData])
 
   // Memoized context value
   const contextValue = useMemo(() => ({

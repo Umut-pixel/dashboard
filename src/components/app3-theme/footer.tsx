@@ -1,7 +1,6 @@
 "use client"
 
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import Image from "next/image";
 import { EditableText } from "./editable-text";
 import { EditableImage } from "./editable-image";
 import { useTheme } from "./theme-context";

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams, useRouter } from 'next/navigation'
 import { AppSidebar } from "@/components/app-sidebar"
@@ -11,13 +11,13 @@ import {
 } from "@/components/ui/sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Input as _Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea as _Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { FullPageLoading } from "@/components/loading-spinner"
 import { EditableText } from "@/components/saas/editable-text"
-import { ArrowLeft, Save, Eye, Settings } from "lucide-react"
+import { ArrowLeft, Save as _Save, Eye, Settings } from "lucide-react"
 import Link from "next/link"
 
 interface ThemeSettings {
@@ -68,16 +68,16 @@ interface Theme {
 export default function ThemeEditPage() {
   const { data: session, status } = useSession()
   const params = useParams()
-  const router = useRouter()
+  const _router = useRouter()
   const [theme, setTheme] = useState<Theme | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
+  const [_isSaving, _setIsSaving] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
   // Tema bilgilerini yükle
-  const loadTheme = async () => {
-    if (!session?.user?.id || !params.id) return
+  const loadTheme = useCallback(async () => {
+    if (!(session?.user as { id: string })?.id || !params.id) return
 
     setIsLoading(true)
     setError('')
@@ -96,14 +96,14 @@ export default function ThemeEditPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [session?.user, params.id])
 
   // Tema ayarlarını güncelle
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateThemeSettings = async (path: string, value: any) => {
     if (!theme) return
 
-    setIsSaving(true)
+    _setIsSaving(true)
     setError('')
     setSuccess('')
 
@@ -135,19 +135,19 @@ export default function ThemeEditPage() {
       } else {
         setError('Güncelleme başarısız')
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Bir hata oluştu')
     } finally {
-      setIsSaving(false)
+      _setIsSaving(false)
     }
   }
 
   // Session değiştiğinde tema yükle
   useEffect(() => {
-    if (session?.user?.id && params.id) {
+    if ((session?.user as { id: string })?.id && params.id) {
       loadTheme()
     }
-  }, [session?.user?.id, params.id])
+  }, [session?.user, params.id, loadTheme])
 
   // Loading durumunda loading göster
   if (status === 'loading') {

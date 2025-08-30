@@ -50,7 +50,7 @@ export default function ProfilePage() {
 
   // Profil bilgilerini yükle
   const loadProfile = useCallback(async () => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     setIsLoading(true)
     try {
@@ -68,16 +68,16 @@ export default function ProfilePage() {
       } else {
         setError('Profil bilgileri yüklenemedi')
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Bir hata oluştu')
     } finally {
       setIsLoading(false)
     }
-  }, [session?.user?.id])
+  }, [session?.user])
 
   // Profil güncelle
   const handleSave = useCallback(async () => {
-    if (!session?.user?.id) return
+    if (!(session?.user as { id: string })?.id) return
 
     setIsSaving(true)
     setError('')
@@ -101,19 +101,19 @@ export default function ProfilePage() {
         const errorData = await response.json()
         setError(errorData.error || 'Profil güncellenemedi')
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Bir hata oluştu')
     } finally {
       setIsSaving(false)
     }
-  }, [session?.user?.id, formData])
+  }, [session?.user, formData])
 
   // Session değiştiğinde profil yükle
   useEffect(() => {
-    if (session?.user?.id) {
+    if ((session?.user as { id: string })?.id) {
       loadProfile()
     }
-  }, [session?.user?.id, loadProfile])
+  }, [session?.user, loadProfile])
 
   // Loading durumunda loading göster
   if (status === 'loading' || isLoading) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import { AppSidebar } from "@/components/app-sidebar"
@@ -69,8 +69,8 @@ export default function ThemePreviewPage() {
   const [error, setError] = useState('')
 
   // Tema bilgilerini yükle
-  const loadTheme = async () => {
-    if (!session?.user?.id || !params.id) return
+  const loadTheme = useCallback(async () => {
+    if (!(session?.user as { id: string })?.id || !params.id) return
 
     setIsLoading(true)
     setError('')
@@ -89,14 +89,14 @@ export default function ThemePreviewPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [session?.user, params.id])
 
   // Session değiştiğinde tema yükle
   useEffect(() => {
-    if (session?.user?.id && params.id) {
+    if ((session?.user as { id: string })?.id && params.id) {
       loadTheme()
     }
-  }, [session?.user?.id, params.id])
+  }, [session?.user, params.id, loadTheme])
 
   // Loading durumunda loading göster
   if (status === 'loading') {
