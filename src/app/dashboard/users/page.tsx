@@ -247,7 +247,6 @@ export default function UsersPage() {
                                   size="sm" 
                                   className="text-red-500"
                                   type="button"
-                                  formAction={`/api/users/${user.id}/delete`}
                                 >
                                   <IconTrash className="h-4 w-4" />
                                 </Button>
