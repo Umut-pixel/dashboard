@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    
+    <!-- 💀 BULLETPROOF FINAL MOTION-DOM EXTERMINATION: 1735950000000 -->
+    <script>
+      // Block any external motion-dom attempts
+      (function() {
+        'use strict';
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+          const url = args[0]?.toString() || '';
+          if (url.includes('motion-dom') || url.includes('esm.sh')) {
+            console.error('💀 BULLETPROOF BLOCK FETCH:', url);
+            return Promise.reject(new Error('💀 MOTION-DOM BLOCKED'));
+          }
+          return originalFetch.apply(this, args);
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

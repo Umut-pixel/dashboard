@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import { 
   IconUsers, 
   IconEye, 
@@ -19,9 +20,13 @@ import {
   IconGlobe,
   IconTrendingUp,
   IconTrendingDown,
-  IconActivity
+  IconActivity,
+  IconRefresh,
+  IconAlertCircle
 } from "@tabler/icons-react"
 import dynamic from "next/dynamic"
+import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 // Dynamically import Recharts components to avoid SSR issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,7 +86,105 @@ const topSources = [
   { source: "Other", users: 5, sessions: 325 },
 ]
 
+interface AnalyticsData {
+  totalUsers: number
+  totalPageviews: number
+  totalSessions: number
+  avgSessionDuration: number
+  bounceRate: number
+  dailyData: Array<{
+    date: string
+    users: number
+    pageviews: number
+    sessions: number
+  }>
+}
+
 export default function AnalyticsPage() {
+  const { data: session } = useSession()
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [lastSync, setLastSync] = useState<Date | null>(null)
+
+  const fetchAnalyticsData = async () => {
+    if (!session?.user) return
+    
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch('/api/analytics/daily')
+      if (!response.ok) {
+        throw new Error('Analytics verileri alınamadı')
+      }
+      
+      const result = await response.json()
+      if (result.error) {
+        throw new Error(result.error)
+      }
+      
+      // Transform the data for display
+      const transformedData: AnalyticsData = {
+        totalUsers: result.data?.reduce((sum: number, item: any) => sum + (item.users || 0), 0) || 0,
+        totalPageviews: result.data?.reduce((sum: number, item: any) => sum + (item.pageviews || 0), 0) || 0,
+        totalSessions: result.data?.reduce((sum: number, item: any) => sum + (item.sessions || 0), 0) || 0,
+        avgSessionDuration: result.data?.reduce((sum: number, item: any) => sum + (item.avgSessionDuration || 0), 0) / (result.data?.length || 1) || 0,
+        bounceRate: result.data?.reduce((sum: number, item: any) => sum + (item.bounceRate || 0), 0) / (result.data?.length || 1) || 0,
+        dailyData: result.data?.map((item: any) => ({
+          date: new Date(item.dateHour).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' }),
+          users: item.users || 0,
+          pageviews: item.pageviews || 0,
+          sessions: item.sessions || 0
+        })) || []
+      }
+      
+      setAnalyticsData(transformedData)
+      setLastSync(new Date())
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Bilinmeyen bir hata oluştu')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const triggerSync = async () => {
+    if (!session?.user) return
+    
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch('/api/analytics/sync', { method: 'POST' })
+      if (!response.ok) {
+        throw new Error('Senkronizasyon başlatılamadı')
+      }
+      
+      const result = await response.json()
+      if (result.error) {
+        throw new Error(result.error)
+      }
+      
+      // Refresh data after sync
+      await fetchAnalyticsData()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Senkronizasyon hatası')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (session?.user) {
+      fetchAnalyticsData()
+    }
+  }, [session?.user])
+
+  const formatDuration = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = Math.floor(seconds % 60)
+    return `${minutes}m ${remainingSeconds}s`
+  }
   return (
     <SidebarProvider
       style={
@@ -100,23 +203,54 @@ export default function AnalyticsPage() {
               <div className="px-4 lg:px-6">
                 <div className="flex items-center justify-between">
                   <div>
-                                         <h1 className="text-3xl font-bold tracking-tight">Analitik</h1>
-                     <p className="text-muted-foreground">
-                       Kapsamlı website analitikleri ve içgörüler
-                     </p>
+                    <h1 className="text-3xl font-bold tracking-tight">Analitik</h1>
+                    <p className="text-muted-foreground">
+                      Kapsamlı website analitikleri ve içgörüler
+                    </p>
+                    {lastSync && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Son güncelleme: {lastSync.toLocaleString('tr-TR')}
+                      </p>
+                    )}
                   </div>
-                                       <Select defaultValue="7d">
-                       <SelectTrigger className="w-[180px]">
-                         <SelectValue placeholder="Dönem seçin" />
-                       </SelectTrigger>
-                       <SelectContent>
-                         <SelectItem value="1d">Son 24 saat</SelectItem>
-                         <SelectItem value="7d">Son 7 gün</SelectItem>
-                         <SelectItem value="30d">Son 30 gün</SelectItem>
-                         <SelectItem value="90d">Son 90 gün</SelectItem>
-                       </SelectContent>
-                     </Select>
+                  <div className="flex items-center gap-3">
+                    <Button 
+                      onClick={triggerSync} 
+                      disabled={loading}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <IconRefresh className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                      {loading ? 'Senkronize ediliyor...' : 'GA4 Verilerini Çek'}
+                    </Button>
+                    <Select defaultValue="7d">
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Dönem seçin" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1d">Son 24 saat</SelectItem>
+                        <SelectItem value="7d">Son 7 gün</SelectItem>
+                        <SelectItem value="30d">Son 30 gün</SelectItem>
+                        <SelectItem value="90d">Son 90 gün</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
+                
+                {error && (
+                  <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
+                    <IconAlertCircle className="h-5 w-5 text-red-500" />
+                    <span className="text-red-700">{error}</span>
+                    <Button 
+                      onClick={() => setError(null)} 
+                      variant="ghost" 
+                      size="sm"
+                      className="ml-auto"
+                    >
+                      Kapat
+                    </Button>
+                  </div>
+                )}
               </div>
 
               <Tabs defaultValue="overview" className="px-4 lg:px-6">
@@ -135,10 +269,17 @@ export default function AnalyticsPage() {
                         <IconUsers className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
                       <CardContent>
-                        <div className="text-2xl font-bold">10,250</div>
-                                                 <p className="text-xs text-muted-foreground">
-                           <IconTrendingUp className="inline h-3 w-3 text-green-500" /> +15.2% geçen haftadan
-                         </p>
+                        <div className="text-2xl font-bold">
+                          {loading ? '...' : analyticsData?.totalUsers.toLocaleString('tr-TR') || '0'}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {analyticsData ? (
+                            <IconTrendingUp className="inline h-3 w-3 text-green-500" />
+                          ) : (
+                            <IconAlertCircle className="inline h-3 w-3 text-yellow-500" />
+                          )}
+                          {analyticsData ? ' GA4 verileri' : ' Veri yok - senkronize edin'}
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -148,10 +289,17 @@ export default function AnalyticsPage() {
                         <IconEye className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
                       <CardContent>
-                        <div className="text-2xl font-bold">29,500</div>
-                                                 <p className="text-xs text-muted-foreground">
-                           <IconTrendingUp className="inline h-3 w-3 text-green-500" /> +12.8% geçen haftadan
-                         </p>
+                        <div className="text-2xl font-bold">
+                          {loading ? '...' : analyticsData?.totalPageviews.toLocaleString('tr-TR') || '0'}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {analyticsData ? (
+                            <IconTrendingUp className="inline h-3 w-3 text-green-500" />
+                          ) : (
+                            <IconAlertCircle className="inline h-3 w-3 text-yellow-500" />
+                          )}
+                          {analyticsData ? ' GA4 verileri' : ' Veri yok - senkronize edin'}
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -160,11 +308,18 @@ export default function AnalyticsPage() {
                         <CardTitle className="text-sm font-medium">Oturumlar</CardTitle>
                         <IconActivity className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
-                        <CardContent>
-                        <div className="text-2xl font-bold">8,460</div>
-                                                 <p className="text-xs text-muted-foreground">
-                           <IconTrendingUp className="inline h-3 w-3 text-green-500" /> +18.5% geçen haftadan
-                         </p>
+                      <CardContent>
+                        <div className="text-2xl font-bold">
+                          {loading ? '...' : analyticsData?.totalSessions.toLocaleString('tr-TR') || '0'}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {analyticsData ? (
+                            <IconTrendingUp className="inline h-3 w-3 text-green-500" />
+                          ) : (
+                            <IconAlertCircle className="inline h-3 w-3 text-yellow-500" />
+                          )}
+                          {analyticsData ? ' GA4 verileri' : ' Veri yok - senkronize edin'}
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -174,10 +329,17 @@ export default function AnalyticsPage() {
                         <IconClock className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
                       <CardContent>
-                        <div className="text-2xl font-bold">3m 24s</div>
-                                                 <p className="text-xs text-muted-foreground">
-                           <IconTrendingUp className="inline h-3 w-3 text-green-500" /> +8.3% geçen haftadan
-                         </p>
+                        <div className="text-2xl font-bold">
+                          {loading ? '...' : analyticsData ? formatDuration(analyticsData.avgSessionDuration) : '0s'}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {analyticsData ? (
+                            <IconTrendingUp className="inline h-3 w-3 text-green-500" />
+                          ) : (
+                            <IconAlertCircle className="inline h-3 w-3 text-yellow-500" />
+                          )}
+                          {analyticsData ? ' GA4 verileri' : ' Veri yok - senkronize edin'}
+                        </p>
                       </CardContent>
                     </Card>
                   </div>
@@ -185,20 +347,33 @@ export default function AnalyticsPage() {
                   <div className="grid gap-4 md:grid-cols-2">
                     <Card>
                       <CardHeader>
-                        <CardTitle>Traffic Overview</CardTitle>
-                        <CardDescription>Weekly visitor and pageview trends</CardDescription>
+                        <CardTitle>GA4 Traffic Overview</CardTitle>
+                        <CardDescription>
+                          {analyticsData ? 'Gerçek GA4 verileri' : 'GA4 verilerini senkronize edin'}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                          <LineChart data={trafficData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="visitors" stroke="#8884d8" strokeWidth={2} />
-                            <Line type="monotone" dataKey="pageviews" stroke="#82ca9d" strokeWidth={2} />
-                          </LineChart>
-                        </ResponsiveContainer>
+                        {analyticsData && analyticsData.dailyData.length > 0 ? (
+                          <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={analyticsData.dailyData}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="date" />
+                              <YAxis />
+                              <Tooltip />
+                              <Line type="monotone" dataKey="users" stroke="#8884d8" strokeWidth={2} name="Kullanıcılar" />
+                              <Line type="monotone" dataKey="pageviews" stroke="#82ca9d" strokeWidth={2} name="Sayfa Görüntüleme" />
+                              <Line type="monotone" dataKey="sessions" stroke="#ffc658" strokeWidth={2} name="Oturumlar" />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        ) : (
+                          <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+                            <div className="text-center">
+                              <IconAlertCircle className="h-12 w-12 mx-auto mb-4" />
+                              <p>GA4 verileri bulunamadı</p>
+                              <p className="text-sm">Yukarıdaki "GA4 Verilerini Çek" butonuna tıklayın</p>
+                            </div>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
 

@@ -10,7 +10,10 @@
     "analyze": "ANALYZE=true next build",
     "build:analyze": "ANALYZE=true npm run build",
     "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
-    "performance": "npm run build && npm run start & sleep 10 && npm run lighthouse && pkill -f 'next start'"
+    "performance": "npm run build && npm run start & sleep 10 && npm run lighthouse && pkill -f 'next start'",
+    "vite:dev": "vite",
+    "vite:build": "vite build",
+    "vite:preview": "vite preview"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -62,13 +65,17 @@
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.5.0",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/vite": "^4.1.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^9",
     "eslint-config-next": "15.5.0",
     "tailwindcss": "^4",
+    "terser": "^5.44.0",
     "tw-animate-css": "^1.3.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^7.1.7"
   }
 }
