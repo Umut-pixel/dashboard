@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,20 +19,48 @@ import {
   IconDownload, 
   IconEye, 
   IconPlus,
-  IconSettings
 } from "@tabler/icons-react"
 
+// Types
+interface ElementPosition {
+  x: number;
+  y: number;
+}
+
+interface ElementStyle {
+  fontSize?: string;
+  color?: string;
+  fontFamily?: string;
+  width?: string;
+  height?: string;
+  backgroundColor?: string;
+  padding?: string;
+  borderRadius?: string;
+  border?: string;
+  cursor?: string;
+  fontWeight?: string;
+}
+
+interface EditorElement {
+  id: string;
+  type: 'text' | 'heading' | 'button' | 'image' | 'rectangle';
+  content: string;
+  style: ElementStyle;
+  position: ElementPosition;
+}
+
+type TemplateKey = 'text' | 'heading' | 'button' | 'image' | 'rectangle';
+
 const WebsiteEditor = () => {
-  const [elements, setElements] = useState([]);
+  const [elements, setElements] = useState<EditorElement[]>([]);
   const [nextId, setNextId] = useState(1);
-  const [selectedElement, setSelectedElement] = useState(null);
+  const [selectedElement, setSelectedElement] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
-  const [draggedElement, setDraggedElement] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   // Element templates
-  const elementTemplates = {
+  const elementTemplates: Record<TemplateKey, Omit<EditorElement, 'id' | 'position'>> = {
     text: {
       type: 'text',
       content: 'Bu metni düzenleyin',
@@ -75,9 +103,9 @@ const WebsiteEditor = () => {
     }
   };
 
-  const addElement = (templateKey) => {
+  const addElement = (templateKey: TemplateKey) => {
     const template = elementTemplates[templateKey];
-    const newElement = {
+    const newElement: EditorElement = {
       ...template,
       id: nextId.toString(),
       position: { x: 50 + (nextId * 20), y: 50 + (nextId * 20) }
@@ -87,18 +115,18 @@ const WebsiteEditor = () => {
     setNextId(nextId + 1);
   };
 
-  const deleteElement = (elementId) => {
+  const deleteElement = (elementId: string) => {
     setElements(elements.filter(el => el.id !== elementId));
     setSelectedElement(null);
   };
 
-  const updateElementContent = (elementId, newContent) => {
+  const updateElementContent = (elementId: string, newContent: string) => {
     setElements(elements.map(el => 
       el.id === elementId ? { ...el, content: newContent } : el
     ));
   };
 
-  const updateElementStyle = (elementId, styleProperty, value) => {
+  const updateElementStyle = (elementId: string, styleProperty: keyof ElementStyle, value: string) => {
     setElements(elements.map(el => 
       el.id === elementId 
         ? { ...el, style: { ...el.style, [styleProperty]: value } }
@@ -106,26 +134,27 @@ const WebsiteEditor = () => {
     ));
   };
 
-  const updateElementPosition = (elementId, position) => {
+  const updateElementPosition = (elementId: string, position: ElementPosition) => {
     setElements(elements.map(el => 
       el.id === elementId ? { ...el, position } : el
     ));
   };
 
-  const handleMouseDown = (e, element) => {
-    if (e.target.classList.contains('resize-handle')) return;
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, element: EditorElement) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('resize-handle')) return;
     
     const rect = e.currentTarget.getBoundingClientRect();
+    if (!canvasRef.current) return;
     const canvasRect = canvasRef.current.getBoundingClientRect();
     
     setDragOffset({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
     });
-    setDraggedElement(element.id);
     setSelectedElement(element.id);
     
-    const handleMouseMove = (moveEvent) => {
+    const handleMouseMove = (moveEvent: MouseEvent) => {
       const newX = moveEvent.clientX - canvasRect.left - dragOffset.x;
       const newY = moveEvent.clientY - canvasRect.top - dragOffset.y;
       
@@ -136,7 +165,6 @@ const WebsiteEditor = () => {
     };
 
     const handleMouseUp = () => {
-      setDraggedElement(null);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
@@ -145,10 +173,10 @@ const WebsiteEditor = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
-  const renderElement = (element) => {
+  const renderElement = (element: EditorElement) => {
     const isSelected = selectedElement === element.id;
     
-    const elementStyle = {
+    const elementStyle: React.CSSProperties = {
       position: 'absolute',
       left: element.position.x,
       top: element.position.y,
@@ -159,9 +187,9 @@ const WebsiteEditor = () => {
 
     const commonProps = {
       style: elementStyle,
-      onMouseDown: (e) => handleMouseDown(e, element),
+      onMouseDown: (e: React.MouseEvent<HTMLDivElement>) => handleMouseDown(e, element),
       className: `element ${isSelected ? 'selected' : ''}`,
-      onClick: (e) => {
+      onClick: (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
         setSelectedElement(element.id);
       }
@@ -226,11 +254,14 @@ const WebsiteEditor = () => {
       case 'image':
         return (
           <div key={element.id} {...commonProps}>
-            <img 
+            <Image 
               src={element.content} 
               alt="Element"
+              width={parseInt(element.style.width || '300')}
+              height={parseInt(element.style.height || '200')}
               style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', ...element.style }}
               draggable={false}
+              unoptimized
             />
             {isSelected && <div className="selection-border" />}
           </div>
@@ -277,7 +308,7 @@ const WebsiteEditor = () => {
                  </div>
               <div className="p-8 relative min-h-screen bg-gray-50">
                 {elements.map(element => {
-                  const previewStyle = {
+                  const previewStyle: React.CSSProperties = {
                     position: 'absolute',
                     left: element.position.x,
                     top: element.position.y,
@@ -301,11 +332,14 @@ const WebsiteEditor = () => {
                       );
                     case 'image':
                       return (
-                        <img 
+                        <Image 
                           key={element.id}
                           src={element.content} 
                           alt="Element"
+                          width={parseInt(element.style.width || '300')}
+                          height={parseInt(element.style.height || '200')}
                           style={previewStyle}
+                          unoptimized
                         />
                       );
                     case 'rectangle':
@@ -431,26 +465,26 @@ const WebsiteEditor = () => {
                     
                     <div className="space-y-4">
                       {(selectedEl.type === 'text' || selectedEl.type === 'heading' || selectedEl.type === 'button') && (
-                                                 <div>
-                           <Label className="block text-sm font-medium text-gray-700 mb-2">Yazı Boyutu</Label>
+                                                <div>
+                          <Label className="block text-sm font-medium text-gray-700 mb-2">Yazı Boyutu</Label>
                           <input
                             type="range"
                             min="12"
                             max="48"
-                            value={parseInt(selectedEl.style.fontSize)}
+                            value={parseInt(selectedEl.style.fontSize || '16')}
                             onChange={(e) => updateElementStyle(selectedEl.id, 'fontSize', e.target.value + 'px')}
                             className="w-full accent-blue-600"
                           />
-                          <span className="text-sm text-gray-500">{parseInt(selectedEl.style.fontSize)}px</span>
+                          <span className="text-sm text-gray-500">{parseInt(selectedEl.style.fontSize || '16')}px</span>
                         </div>
                       )}
                       
                       {(selectedEl.type === 'text' || selectedEl.type === 'heading') && (
-                                                 <div>
-                           <Label className="block text-sm font-medium text-gray-700 mb-2">Renk</Label>
+                                                <div>
+                          <Label className="block text-sm font-medium text-gray-700 mb-2">Renk</Label>
                           <Input
                             type="color"
-                            value={selectedEl.style.color}
+                            value={selectedEl.style.color || '#333'}
                             onChange={(e) => updateElementStyle(selectedEl.id, 'color', e.target.value)}
                             className="w-full h-10 rounded-lg border border-gray-300"
                           />
@@ -458,11 +492,11 @@ const WebsiteEditor = () => {
                       )}
                       
                       {(selectedEl.type === 'button' || selectedEl.type === 'rectangle') && (
-                                                 <div>
-                           <Label className="block text-sm font-medium text-gray-700 mb-2">Arka Plan Rengi</Label>
+                                                <div>
+                          <Label className="block text-sm font-medium text-gray-700 mb-2">Arka Plan Rengi</Label>
                           <Input
                             type="color"
-                            value={selectedEl.style.backgroundColor}
+                            value={selectedEl.style.backgroundColor || '#f3f4f6'}
                             onChange={(e) => updateElementStyle(selectedEl.id, 'backgroundColor', e.target.value)}
                             className="w-full h-10 rounded-lg border border-gray-300"
                           />
@@ -470,8 +504,8 @@ const WebsiteEditor = () => {
                       )}
                       
                       {selectedEl.type === 'image' && (
-                                                 <div>
-                           <Label className="block text-sm font-medium text-gray-700 mb-2">Resim URL</Label>
+                                                <div>
+                          <Label className="block text-sm font-medium text-gray-700 mb-2">Resim URL</Label>
                           <Input
                             type="text"
                             value={selectedEl.content}
@@ -481,22 +515,22 @@ const WebsiteEditor = () => {
                         </div>
                       )}
                       
-                                             <div>
-                         <Label className="block text-sm font-medium text-gray-700 mb-2">Genişlik</Label>
+                                            <div>
+                        <Label className="block text-sm font-medium text-gray-700 mb-2">Genişlik</Label>
                         <Input
                           type="number"
-                          value={parseInt(selectedEl.style.width)}
+                          value={parseInt(selectedEl.style.width || '200')}
                           onChange={(e) => updateElementStyle(selectedEl.id, 'width', e.target.value + 'px')}
                           min="50"
                           max="800"
                         />
                       </div>
                       
-                                             <div>
-                         <Label className="block text-sm font-medium text-gray-700 mb-2">Yükseklik</Label>
+                                            <div>
+                        <Label className="block text-sm font-medium text-gray-700 mb-2">Yükseklik</Label>
                         <Input
                           type="number"
-                          value={parseInt(selectedEl.style.height)}
+                          value={parseInt(selectedEl.style.height || '150')}
                           onChange={(e) => updateElementStyle(selectedEl.id, 'height', e.target.value + 'px')}
                           min="30"
                           max="600"
