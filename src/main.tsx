@@ -23,12 +23,12 @@ function ViteEntryPoint() {
         marginTop: '1rem'
       }}>
         <h2>❌ UYARI: Bu bir Next.js projesidir!</h2>
-        <p>Bu sayfa Vite config'i için oluşturulmuştur ancak <strong>Next.js ile çalışmaz</strong>.</p>
+        <p>Bu sayfa Vite config&apos;i için oluşturulmuştur ancak <strong>Next.js ile çalışmaz</strong>.</p>
         <p>Projenizi çalıştırmak için:</p>
         <pre style={{ background: '#333', color: '#0f0', padding: '1rem', borderRadius: '4px' }}>
           npm run dev
         </pre>
-        <p>Bu komut Next.js'i başlatacaktır (Vite değil).</p>
+        <p>Bu komut Next.js&apos;i başlatacaktır (Vite değil).</p>
       </div>
       
       <div style={{ marginTop: '2rem', background: '#eef', padding: '1rem', borderRadius: '8px' }}>

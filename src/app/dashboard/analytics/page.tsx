@@ -20,39 +20,24 @@ import {
   IconGlobe,
   IconTrendingUp,
   IconTrendingDown,
-  IconActivity,
   IconRefresh,
   IconAlertCircle
 } from "@tabler/icons-react"
-import dynamic from "next/dynamic"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSession } from "next-auth/react"
-
-// Dynamically import Recharts components to avoid SSR issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const LineChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.LineChart })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Line = dynamic(() => import("recharts").then((mod) => ({ default: mod.Line })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const XAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.XAxis })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const YAxis = dynamic(() => import("recharts").then((mod) => ({ default: mod.YAxis })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CartesianGrid = dynamic(() => import("recharts").then((mod) => ({ default: mod.CartesianGrid })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Tooltip = dynamic(() => import("recharts").then((mod) => ({ default: mod.Tooltip })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => ({ default: mod.ResponsiveContainer })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const BarChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.BarChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-expect-error - Recharts type compatibility issue
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Bar = dynamic(() => import("recharts").then((mod) => ({ default: mod.Bar })), { ssr: false }) as React.ComponentType<any>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AreaChart = dynamic(() => import("recharts").then((mod) => ({ default: mod.AreaChart })), { ssr: false }) as React.ComponentType<any>
-// @ts-expect-error - Recharts type compatibility issue
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Area = dynamic(() => import("recharts").then((mod) => ({ default: mod.Area })), { ssr: false }) as React.ComponentType<any>
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  AreaChart,
+  Area
+} from "recharts"
 
 const trafficData = [
   { date: "Mon", visitors: 1200, pageviews: 3400, sessions: 980 },
@@ -107,7 +92,7 @@ export default function AnalyticsPage() {
   const [error, setError] = useState<string | null>(null)
   const [lastSync, setLastSync] = useState<Date | null>(null)
 
-  const fetchAnalyticsData = async () => {
+  const fetchAnalyticsData = useCallback(async () => {
     if (!session?.user) return
     
     setLoading(true)
@@ -125,14 +110,23 @@ export default function AnalyticsPage() {
       }
       
       // Transform the data for display
+      interface RawDataItem {
+        users?: number
+        pageviews?: number
+        sessions?: number
+        avgSessionDuration?: number
+        bounceRate?: number
+        dateHour?: string
+      }
+      
       const transformedData: AnalyticsData = {
-        totalUsers: result.data?.reduce((sum: number, item: any) => sum + (item.users || 0), 0) || 0,
-        totalPageviews: result.data?.reduce((sum: number, item: any) => sum + (item.pageviews || 0), 0) || 0,
-        totalSessions: result.data?.reduce((sum: number, item: any) => sum + (item.sessions || 0), 0) || 0,
-        avgSessionDuration: result.data?.reduce((sum: number, item: any) => sum + (item.avgSessionDuration || 0), 0) / (result.data?.length || 1) || 0,
-        bounceRate: result.data?.reduce((sum: number, item: any) => sum + (item.bounceRate || 0), 0) / (result.data?.length || 1) || 0,
-        dailyData: result.data?.map((item: any) => ({
-          date: new Date(item.dateHour).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' }),
+        totalUsers: result.data?.reduce((sum: number, item: RawDataItem) => sum + (item.users || 0), 0) || 0,
+        totalPageviews: result.data?.reduce((sum: number, item: RawDataItem) => sum + (item.pageviews || 0), 0) || 0,
+        totalSessions: result.data?.reduce((sum: number, item: RawDataItem) => sum + (item.sessions || 0), 0) || 0,
+        avgSessionDuration: result.data?.reduce((sum: number, item: RawDataItem) => sum + (item.avgSessionDuration || 0), 0) / (result.data?.length || 1) || 0,
+        bounceRate: result.data?.reduce((sum: number, item: RawDataItem) => sum + (item.bounceRate || 0), 0) / (result.data?.length || 1) || 0,
+        dailyData: result.data?.map((item: RawDataItem) => ({
+          date: new Date(item.dateHour || '').toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' }),
           users: item.users || 0,
           pageviews: item.pageviews || 0,
           sessions: item.sessions || 0
@@ -146,7 +140,7 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [session?.user])
 
   const triggerSync = async () => {
     if (!session?.user) return
@@ -178,7 +172,7 @@ export default function AnalyticsPage() {
     if (session?.user) {
       fetchAnalyticsData()
     }
-  }, [session?.user])
+  }, [session?.user, fetchAnalyticsData])
 
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -306,7 +300,7 @@ export default function AnalyticsPage() {
                     <Card>
                       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Oturumlar</CardTitle>
-                        <IconActivity className="h-4 w-4 text-muted-foreground" />
+                        <IconRefresh className="h-4 w-4 text-muted-foreground" />
                       </CardHeader>
                       <CardContent>
                         <div className="text-2xl font-bold">
@@ -370,7 +364,7 @@ export default function AnalyticsPage() {
                             <div className="text-center">
                               <IconAlertCircle className="h-12 w-12 mx-auto mb-4" />
                               <p>GA4 verileri bulunamadı</p>
-                              <p className="text-sm">Yukarıdaki "GA4 Verilerini Çek" butonuna tıklayın</p>
+                              <p className="text-sm">Yukarıdaki &quot;GA4 Verilerini Çek&quot; butonuna tıklayın</p>
                             </div>
                           </div>
                         )}
