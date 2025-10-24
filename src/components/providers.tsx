@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react"
 import { ThemeProvider } from "@/components/theme-provider"
-import { ThemeProvider as SaaSThemeProvider } from "@/contexts/theme-context"
+import { ThemeProvider as SaaSThemeProvider } from "@/context/theme-context"
 import { PerformanceMonitor } from "@/components/performance-monitor"
 
 interface ProvidersProps {

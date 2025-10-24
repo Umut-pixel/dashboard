@@ -1,11 +1,12 @@
 import Redis from "ioredis";
+import config from "@/config/server";
 
 let redis: Redis | null = null;
 
 export function getRedis() {
-  if (!process.env.REDIS_URL) return null;
+  if (!config.REDIS_URL) return null;
   if (redis) return redis;
-  redis = new Redis(process.env.REDIS_URL);
+  redis = new Redis(config.REDIS_URL);
   return redis;
 }
 

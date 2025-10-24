@@ -29,7 +29,7 @@ import {
   IconRefresh
 } from "@tabler/icons-react"
 import Link from "next/link"
-import { useTheme } from "@/contexts/theme-context"
+import { useTheme } from "@/context/theme-context"
 import { useSession } from "next-auth/react"
 import { FullPageLoading } from "@/components/loading-spinner"
 import { useState, useEffect } from "react"

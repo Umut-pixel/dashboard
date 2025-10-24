@@ -1,170 +1,256 @@
-# Web Dashboard
+# Dashboard Project
 
-A comprehensive website management dashboard built with Next.js, React, and shadcn/ui components. Monitor your website performance, manage components, track analytics, and view business insights all in one place.
+A modern React + Next.js dashboard application with Tailwind CSS, featuring analytics, authentication, and a clean modular architecture.
 
-## Features
+## 🏗️ Project Structure
 
-### Website Monitoring
-- **Performance Tracking**: Monitor page load times, Core Web Vitals, and performance metrics
-- **Uptime Monitoring**: Real-time uptime status and historical data
-- **SEO Analysis**: Track SEO scores, mobile friendliness, and accessibility
-- **Alert System**: Get notified of performance issues and downtime
+```
+/src
+  /components          # Reusable UI components
+  /pages              # Next.js pages and API routes
+  /hooks              # Custom React hooks
+  /context            # React context providers
+  /assets             # Static assets (images, icons, etc.)
+  /utils              # Utility functions and helpers
+  /models             # Database models (Mongoose)
+  /types              # TypeScript type definitions
+  /server             # Server-side utilities
+/public               # Public static files (Next.js)
+/config               # Configuration files
+.env                  # Environment variables
+README.md
+```
 
-### Component Management
-- **Component Library**: Create, edit, and manage website components
-- **Template System**: Use pre-built templates for common layouts
-- **Code Editor**: Built-in code editor for component development
-- **Version Control**: Track component changes and versions
-
-### Analytics & Insights
-- **Traffic Analysis**: Detailed visitor and pageview analytics
-- **User Behavior**: Track user engagement and interaction patterns
-- **Device Analytics**: Monitor traffic by device type and browser
-- **Geographic Data**: View traffic distribution by location
-
-### Business Analytics
-- **Revenue Tracking**: Monitor sales, revenue, and growth metrics
-- **Customer Analytics**: Track customer acquisition and retention
-- **Product Performance**: Analyze top-performing products and categories
-- **Business Intelligence**: Comprehensive business insights and reporting
-
-### Activity Monitoring
-- **System Logs**: Real-time system logs and error tracking
-- **User Actions**: Monitor user activities and sessions
-- **Security Events**: Track security alerts and authentication events
-- **Activity Timeline**: Complete audit trail of system activities
-
-## Tech Stack
-
-- **Framework**: Next.js 15 with App Router
-- **UI Library**: React 19
-- **Styling**: Tailwind CSS 4
-- **Components**: shadcn/ui
-- **Charts**: Recharts
-- **Icons**: Tabler Icons
-- **TypeScript**: Full type safety
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+ 
-- npm or yarn
+- MongoDB
+- Redis (optional, for caching)
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd dashboard1
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd dashboard-master
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+The application will be available at `http://localhost:3000`
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+All environment variables are centralized in the `.env` file. Key variables include:
+
+```env
+# Database Configuration
+MONGODB_URI=mongodb://localhost:27017/saas-website-builder
+MONGODB_DB=saas-website-builder
+
+# Redis Configuration (optional)
+REDIS_URL=redis://localhost:6379
+
+# Authentication
+NEXTAUTH_SECRET=your-nextauth-secret-key-here
+NEXTAUTH_URL=http://localhost:3000
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Google Analytics
+GA4_PROPERTY_ID=your-ga4-property-id
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account",...}
+
+# Server Configuration
+PORT=3000
+NODE_ENV=development
 ```
 
-2. Install dependencies:
-```bash
-npm install
+### Server Configuration
+
+The project uses a centralized configuration system located in `/config/server.ts`:
+
+```typescript
+import config from '@/config/server';
+
+// Access configuration values
+const mongoUri = config.MONGODB_URI;
+const isDevelopment = config.IS_DEVELOPMENT;
 ```
 
-3. Run the development server:
-```bash
-npm run dev
-```
+This file provides:
+- Centralized environment variable management
+- Type-safe configuration access
+- Default fallback values
+- Environment validation
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## 🔧 Development
 
-## Project Structure
+### Available Scripts
 
-```
-dashboard1/
-├── src/
-│   ├── app/
-│   │   ├── dashboard/
-│   │   │   ├── page.tsx              # Main dashboard
-│   │   │   ├── monitor/page.tsx      # Website monitoring
-│   │   │   ├── components/page.tsx   # Component management
-│   │   │   ├── analytics/page.tsx    # Analytics dashboard
-│   │   │   ├── business/page.tsx     # Business analytics
-│   │   │   └── activity/page.tsx     # Activity monitoring
-│   │   └── layout.tsx
-│   ├── components/
-│   │   ├── ui/                       # shadcn/ui components
-│   │   ├── app-sidebar.tsx           # Main navigation
-│   │   ├── site-header.tsx           # Header component
-│   │   └── ...
-│   └── lib/
-└── public/
-```
+- `npm run dev` - Start Next.js development server with Turbopack
+- `npm run build` - Build the application for production
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint
+- `npm run vite:dev` - Start Vite development server
+- `npm run vite:build` - Build with Vite
+- `npm run vite:preview` - Preview Vite build
 
-## Dashboard Sections
+### Changing Backend URL
 
-### Main Dashboard (`/dashboard`)
-- Overview of all key metrics
-- Quick access to all sections
-- Recent alerts and notifications
-- Performance charts
+To change the backend URL for local development:
 
-### Website Monitor (`/dashboard/monitor`)
-- Performance metrics and trends
-- Uptime monitoring
-- SEO analysis
-- Real-time alerts
+1. **Update environment variables** in `.env`:
+   ```env
+   VITE_SERVER_URL=http://localhost:3001
+   VITE_API_URL=http://localhost:3001/api
+   ```
 
-### Components (`/dashboard/components`)
-- Component library management
-- Template system
-- Code editor
-- Component versioning
+2. **Or modify the config file** at `/config/server.ts`:
+   ```typescript
+   SERVER_URL: process.env.VITE_SERVER_URL || 'http://localhost:3001',
+   API_URL: process.env.VITE_API_URL || 'http://localhost:3001/api',
+   ```
 
-### Analytics (`/dashboard/analytics`)
-- Traffic analysis
-- User behavior tracking
-- Device analytics
-- Geographic distribution
+### Port Configuration
 
-### Business (`/dashboard/business`)
-- Revenue tracking
-- Customer analytics
-- Product performance
-- Business intelligence
+The default port is defined in multiple places:
 
-### Activity (`/dashboard/activity`)
-- System logs
-- User actions
-- Security events
-- Activity timeline
+- **Next.js**: Port 3000 (default)
+- **Vite**: Port 5173 (development), 4173 (preview)
+- **Environment**: Set `PORT=3001` in `.env` to override
 
-## Customization
+## 🎨 Styling
 
-### Adding New Components
+The project uses **Tailwind CSS v4** with a custom configuration. Key features:
 
-1. Create new components in `src/components/`
-2. Use shadcn/ui components for consistency
-3. Follow the existing component patterns
+- **Theme colors**: Custom color palette defined in the theme
+- **Font**: Alata font family
+- **Dark mode**: Support with custom background colors
+- **Responsive design**: Mobile-first approach
 
-### Adding New Pages
+### Tailwind Configuration
 
-1. Create new page files in `src/app/dashboard/`
-2. Update the sidebar navigation in `src/components/app-sidebar.tsx`
-3. Follow the existing page structure and styling
+- `postcss.config.mjs` - PostCSS configuration
+- Tailwind CSS v4 with Vite plugin
+- Custom utilities and components
 
-### Styling
+## 🗄️ Database
 
-The dashboard uses Tailwind CSS with a custom design system. All components follow the shadcn/ui design patterns for consistency.
+### MongoDB Setup
 
-## Deployment
+1. **Install MongoDB** locally or use MongoDB Atlas
+2. **Update connection string** in `.env`:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/your-database
+   ```
 
-### Build for Production
+### Models
+
+Database models are located in `/src/models/`:
+- `User.ts` - User authentication and profile
+- `Event.ts` - Analytics events
+- `Aggregate.ts` - Aggregated analytics data
+- `RawMetric.ts` - Raw metrics from external sources
+- `Theme.ts` - Theme configurations
+- `Integration.ts` - Third-party integrations
+
+## 🔐 Authentication
+
+The project uses **NextAuth.js** with multiple providers:
+
+- **Google OAuth** - Primary authentication method
+- **Credentials** - Email/password authentication
+
+### Setup Google OAuth
+
+1. Create a project in [Google Cloud Console](https://console.cloud.google.com/)
+2. Enable Google+ API
+3. Create OAuth 2.0 credentials
+4. Add credentials to `.env`:
+   ```env
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   ```
+
+## 📊 Analytics
+
+### Google Analytics 4 Integration
+
+The project includes GA4 integration for analytics:
+
+1. **Set up GA4 property** in Google Analytics
+2. **Create service account** in Google Cloud Console
+3. **Add credentials** to `.env`:
+   ```env
+   GA4_PROPERTY_ID=your-property-id
+   GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account",...}
+   ```
+
+## 🚀 Deployment
+
+### Production Build
 
 ```bash
 npm run build
+npm run start
 ```
 
-### Start Production Server
+### Environment Setup
 
-```bash
-npm start
-```
+Ensure all production environment variables are set:
+- Database connection strings
+- Authentication secrets
+- API keys and credentials
+- Domain URLs
 
-## Contributing
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+1. **MongoDB Connection Error**
+   - Verify MongoDB is running
+   - Check connection string in `.env`
+   - Ensure database exists
+
+2. **Authentication Issues**
+   - Verify Google OAuth credentials
+   - Check `NEXTAUTH_SECRET` is set
+   - Ensure callback URLs are configured
+
+3. **Build Errors**
+   - Clear `.next` directory: `rm -rf .next`
+   - Reinstall dependencies: `rm -rf node_modules && npm install`
+   - Check TypeScript errors: `npm run lint`
+
+### Development Tips
+
+- Use `npm run dev` for Next.js development
+- Use `npm run vite:dev` for Vite-based development
+- Check browser console for client-side errors
+- Monitor server logs for API issues
+
+## 📝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -172,10 +258,10 @@ npm start
 4. Test thoroughly
 5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
 
-## Support
+---
 
-For support and questions, please open an issue in the repository.
+For more detailed information, check the individual component documentation in the `/src/components` directory.

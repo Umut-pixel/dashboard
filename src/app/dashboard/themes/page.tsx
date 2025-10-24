@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { useTheme } from '@/contexts/theme-context'
+import { useTheme } from '@/context/theme-context'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { FullPageLoading } from '@/components/loading-spinner'

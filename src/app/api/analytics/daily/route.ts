@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { getDailyAggregates } from "@/server/services/analytics";
+import config from "@/config/server";
 
 export async function GET() {
-  const propertyId = process.env.GA4_PROPERTY_ID;
+  const propertyId = config.GA4_PROPERTY_ID;
   if (!propertyId) return NextResponse.json({ error: "GA4_PROPERTY_ID not set" }, { status: 400 });
   const siteId = `ga4:${propertyId}`;
   const end = new Date();

@@ -127,12 +127,16 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
       '@/components': resolve(__dirname, './src/components'),
       '@/app': resolve(__dirname, './src/app'),
-      '@/lib': resolve(__dirname, './src/lib'),
+      '@/lib': resolve(__dirname, './src/utils'),
+      '@/utils': resolve(__dirname, './src/utils'),
       '@/hooks': resolve(__dirname, './src/hooks'),
-      '@/contexts': resolve(__dirname, './src/contexts'),
+      '@/context': resolve(__dirname, './src/context'),
+      '@/contexts': resolve(__dirname, './src/context'),
       '@/models': resolve(__dirname, './src/models'),
       '@/types': resolve(__dirname, './src/types'),
       '@/server': resolve(__dirname, './src/server'),
+      '@/assets': resolve(__dirname, './src/assets'),
+      '@/config': resolve(__dirname, './src/config'),
     }
   },
   plugins: [

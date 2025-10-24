@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
-import { dbConnect } from "@/lib/mongoose";
-import { fetchGa4Metrics } from "@/lib/etl/fetch-ga4";
-import { normalizeGa4Rows } from "@/lib/etl/normalize-ga4";
+import { dbConnect } from "@/utils/mongoose";
+import { fetchGa4Metrics } from "@/utils/etl/fetch-ga4";
+import { normalizeGa4Rows } from "@/utils/etl/normalize-ga4";
 import { RawMetric } from "@/models/RawMetric";
 import { Event } from "@/models/Event";
 import { Aggregate } from "@/models/Aggregate";
+import config from "@/config/server";
 
 export async function POST() {
   await dbConnect();
-  const propertyId = process.env.GA4_PROPERTY_ID;
+  const propertyId = config.GA4_PROPERTY_ID;
   if (!propertyId) return NextResponse.json({ error: "GA4_PROPERTY_ID not set" }, { status: 400 });
 
   const siteId = `ga4:${propertyId}`;
